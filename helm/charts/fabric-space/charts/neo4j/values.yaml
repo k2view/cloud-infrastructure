@@ -1,0 +1,62 @@
+global:
+  namespace:
+    create: false
+    name: "space-tenant"
+
+  labels:
+    - name: tenant
+      value: my-tenant
+    - name: space
+      value: my-space
+
+namespace:
+  name: "space-tenant"
+
+labels:
+  - name: tenant
+    value: my-tenant
+  - name: space
+    value: my-space
+
+container:
+  image:
+    url: neo4j:5.18-enterprise
+    repoSecret:
+      name: "registry-secret"
+      enabled: false
+      dockerRegistry:
+        auths:
+          "docker.share.cloud.k2view.com":
+            username: ""
+            password: ""
+
+  storage_path: "/var/lib/neo4j/data"
+
+  resource_allocation:
+    limits:
+      memory: 4Gi
+      cpu: '1'
+    requests:
+      memory: 2Gi
+      cpu: '0.4'
+
+  envList:
+  - key: NEO4JLABS_PLUGINS
+    value: '["graph-data-science"]'
+
+credentials:
+  neo4j_username: neo4j
+  neo4j_password: changeit
+
+networkPolicy:
+  enabled: true
+
+storage:
+  class: efs-pg
+  alocated_amount: 10Gi
+
+affinity:
+  type: none  # Options: affinity, anti-affinity, none
+  label: 
+    name: failure-domain.beta.kubernetes.io/zone
+    value: region-a
