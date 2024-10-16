@@ -16,7 +16,8 @@ metadata:
     {{- end }}
     {{- else if eq .Values.ingress.type "nginx" }}
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "7d"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "90
     {{- else if eq .Values.ingress.type "appgw" }}
     {{- if ne .Values.ingress.appgw_ssl_certificate_name "" }}
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: {{ .Values.ingress.appgw_ssl_certificate_name }}
