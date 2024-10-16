@@ -16,13 +16,15 @@ metadata:
     {{- end }}
     {{- else if eq .Values.ingress.type "nginx" }}
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
-    nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
-    nginx.ingress.kubernetes.io/proxy-send-timeout: "900"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "7d"
     {{- else if eq .Values.ingress.type "appgw" }}
     {{- if ne .Values.ingress.appgw_ssl_certificate_name "" }}
     appgw.ingress.kubernetes.io/appgw-ssl-certificate: {{ .Values.ingress.appgw_ssl_certificate_name }}
     {{- end }}
     appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    {{- end }}
+    {{- if and .Values.ingress.cert_manager.enabled (ne .Values.ingress.cert_manager.cluster_issuer "") }}
+    cert-manager.io/cluster-issuer: {{ .Values.ingress.cert_manager.cluster_issuer }}
     {{- end }}
 spec:
   ingressClassName: {{ .Values.ingress.class_name }}
@@ -31,6 +33,8 @@ spec:
     - {{ .Values.ingress.host }}
     {{- if and .Values.ingress.tlsSecret.enabled (ne .Values.ingress.tlsSecret.key "") (ne .Values.ingress.tlsSecret.crt "") }}
     secretName: fabric-private-ingress-ssl
+    {{- else if .Values.ingress.cert_manager.enabled }}
+    secretName: cert-manager-ssl-cert
     {{- end }}
   rules:
   - host: {{ .Values.ingress.host }}
