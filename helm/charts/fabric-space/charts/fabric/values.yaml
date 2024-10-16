@@ -89,6 +89,9 @@ ingress:
   class_name: "nginx"
   type: "nginx"
   appgw_ssl_certificate_name: ""
+  cert_manager:
+    enabled: false
+    cluster_issuer: ""
   port: 3213
   host: space-tenant.domain
   tlsSecret:
