@@ -1,0 +1,6 @@
+apiVersion: v2
+name: neo4j
+description: This Helm chart supports highly available Neo4j configurations, tailored for K2view Fabric use case.
+type: application
+version: 1.0.1
+appVersion: "5.18.0"

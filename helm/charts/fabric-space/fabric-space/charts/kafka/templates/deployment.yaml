@@ -1,0 +1,70 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-deployment
+  namespace: {{ .Values.namespace.name }}
+  labels: &id001
+    app: kafka
+    {{- range $label := .Values.labels }}
+    {{ $label.name }}: {{ $label.value }}
+    {{- end }}
+spec:
+  replicas: {{ .Values.container.replicas }}
+  selector:
+    matchLabels:
+      app: kafka
+  template:
+    metadata:
+      labels: *id001
+    spec:
+      {{- if .Values.container.image.repoSecret.enabled }}
+      imagePullSecrets:
+        -name: {{ .Values.container.image.repoSecret.name }}
+      {{- end }}
+      {{- if or (eq .Values.affinity.type "affinity") (eq .Values.affinity.type "anti-affinity") }}
+      affinity:
+        {{- if eq .Values.affinity.type "affinity" }}
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: {{ .Values.affinity.label.name }}
+                operator: In
+                values:
+                - {{ .Values.affinity.label.value }}
+        {{- else if eq .Values.affinity.type "anti-affinity" }}
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: {{ .Values.affinity.label.name }}
+                operator: NotIn
+                values:
+                - {{ .Values.affinity.label.value }}
+        {{- end }}
+      {{- end }}
+      containers:
+      - name: kafka
+        image: {{ .Values.container.image.url }}
+        imagePullPolicy: "IfNotPresent"
+        ports:
+        - containerPort: {{ .Values.listening_port }}
+        resources:
+          limits:
+            memory: {{ .Values.container.resource_allocation.limits.memory }}
+            cpu: {{ .Values.container.resource_allocation.limits.cpu }}
+          requests:
+            memory: {{ .Values.container.resource_allocation.requests.memory }}
+            cpu: {{ .Values.container.resource_allocation.requests.cpu }}
+        env:
+        {{- range $env := .Values.container.envList }}
+        - name: {{ $env.key }}
+          value: {{ $env.value }}
+        {{- end }}
+        volumeMounts:
+          - name: kafka-storage
+            mountPath: {{ .Values.container.storage_path }}
+      volumes:
+      - name: kafka-storage
+        persistentVolumeClaim:
+          claimName: kafka-claim

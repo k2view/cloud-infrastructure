@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: neo4j-service
+  namespace: {{ .Values.namespace.name }}
+  labels:
+    app: neo4j
+    {{- range $label := .Values.labels }}
+    {{ $label.name }}: {{ $label.value }}
+    {{- end }}
+spec:
+  type: 
+  ports:
+  - port: 7687
+    targetPort: 7687
+    protocol: TCP
+    name: neo4j-port
+  selector:
+    app: neo4j

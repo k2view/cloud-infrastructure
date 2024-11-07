@@ -1,0 +1,60 @@
+global:
+  namespace:
+    name: "space-tenant"
+
+  labels:
+    - name: tenant
+      value: my-tenant
+    - name: space
+      value: my-space
+
+namespace:
+  name: "space-tenant"
+
+labels:
+  - name: tenant
+    value: my-tenant
+  - name: space
+    value: my-space
+
+container:
+  replicas: 1
+  image:
+    url: 329508970117.dkr.ecr.eu-central-1.amazonaws.com/k2view_shared:kafka_7.2
+
+    repoSecret:
+      name: "registry-secret"
+      enabled: false
+      dockerRegistry:
+        auths:
+          "docker.share.cloud.k2view.com":
+            username: ""
+            password: ""
+  storage_path: "/home/kafka/zk_data"
+
+  resource_allocation:
+    limits:
+      memory: 4Gi
+      cpu: '1'
+    requests:
+      memory: 2Gi
+      cpu: '0.4'
+
+  envList:
+  - key: DATA
+    value: "/home/kafka/zk_data"
+
+networkPolicy:
+  enabled: false
+
+listening_port: 9093
+
+storage:
+  class: efs-kafka
+  alocated_amount: 10Gi
+
+affinity:
+  type: none  # Options: affinity, anti-affinity, none
+  label: 
+    name: failure-domain.beta.kubernetes.io/zone
+    value: region-a
