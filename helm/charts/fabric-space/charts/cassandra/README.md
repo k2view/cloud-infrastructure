@@ -40,7 +40,7 @@ This Helm chart deploys Cassandra on Kubernetes.
 | storage.class | string | `"gp2"` | Defines the storage class to be used for Cassandra data storage. |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
 | affinity.label | object | `{}` | Label configuration for affinity rules. |
-| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `failure-domain.beta.kubernetes.io/zone`. |
+| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `topology.kubernetes.io/zone`. |
 | affinity.label.value | string | `""` | The value of the label to be used for affinity rules. For example: `region-a`. |
 
 >NOTE: for mo information about Cassandra configs in the image [Cassandra docker hub](https://hub.docker.com/_/cassandra) in Configuring Cassandra section.
