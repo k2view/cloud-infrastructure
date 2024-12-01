@@ -39,7 +39,7 @@ The kafka Helm chart is designed to deploy Apache Kafka, a distributed event str
 | storage.class | string | `"efs-kafka"` | Storage class for Kafka data |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
 | affinity.label | object | `{}` | Label configuration for affinity rules. |
-| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `failure-domain.beta.kubernetes.io/zone`. |
+| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `topology.kubernetes.io/zone`. |
 | affinity.label.value | string | `""` | The value of the label to be used for affinity rules. For example: `region-a`. |
 
 ## Installation

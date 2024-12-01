@@ -37,7 +37,7 @@ The `postgres` Helm chart is designed to deploy a PostgreSQL database on Kuberne
 | storage.class | string | `"gp2"` | Storage class for PostgreSQL data |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
 | affinity.label | object | `{}` | Label configuration for affinity rules. |
-| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `failure-domain.beta.kubernetes.io/zone`. |
+| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `topology.kubernetes.io/zone`. |
 | affinity.label.value | string | `""` | The value of the label to be used for affinity rules. For example: `region-a`. |
 
 
