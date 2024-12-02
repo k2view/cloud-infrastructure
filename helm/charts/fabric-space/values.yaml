@@ -228,7 +228,10 @@ fabric:
     type: "nginx"
     appgw_ssl_certificate_name: ""
     port: 3213
-    host: space-tenant.domain
+    # Domain based / path based
+    host: space-tenant.domain / domain
+    # only if path based space - space-tenant
+    path: ""
     tlsSecret:
       enabled: false
       key: ""
