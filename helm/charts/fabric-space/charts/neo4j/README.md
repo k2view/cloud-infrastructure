@@ -36,7 +36,7 @@ This Helm chart supports highly available Neo4j configurations, tailored for K2v
 | storage.class | string | `"efs-pg"` | Storage class for Neo4j data |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
 | affinity.label | object | `{}` | Label configuration for affinity rules. |
-| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `failure-domain.beta.kubernetes.io/zone`. |
+| affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `topology.kubernetes.io/zone`. |
 | affinity.label.value | string | `""` | The value of the label to be used for affinity rules. For example: `region-a`. |
 
 ## Installation

@@ -40,8 +40,9 @@ spec:
           {{- else if .Values.serviceAccount.create }}
           serviceAccountName: {{ .Values.namespace.name }}-sa
           {{- end }}
-          {{- if eq .Values.affinity.type "affinity" }}
+          {{- if or (eq .Values.affinity.type "affinity") (eq .Values.affinity.type "anti-affinity") }}
           affinity:
+            {{- if eq .Values.affinity.type "affinity" }}
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
                 nodeSelectorTerms:
@@ -50,6 +51,16 @@ spec:
                     operator: In
                     values:
                     - {{ .Values.affinity.label.value }}
+            {{- else if eq .Values.affinity.type "anti-affinity" }}
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                - matchExpressions:
+                  - key: {{ .Values.affinity.label.name }}
+                    operator: NotIn
+                    values:
+                    - {{ .Values.affinity.label.value }}
+            {{- end }}
           {{- end }}
           initContainers:
           - command:
@@ -98,6 +109,8 @@ spec:
               mountPath: /opt/apps/fabric/workspace
             - name: {{ .Values.mountSecret.name }}
               mountPath: {{ .Values.mountSecret.mountPath }}
+            - name: {{ .Values.mountSecretB64enc.name }}
+              mountPath: {{ .Values.mountSecretB64enc.mountPath }}
           containers:
           - command:
             - /bin/bash
@@ -152,6 +165,10 @@ spec:
             - name: {{ .Values.mountSecret.name }}
               mountPath: {{ .Values.mountSecret.mountPath }}
             {{- end }}
+            {{- if .Values.mountSecretB64enc.enabled }}
+            - name: {{ .Values.mountSecretB64enc.name }}
+              mountPath: {{ .Values.mountSecretB64enc.mountPath }}
+            {{- end }}
           {{ if .Values.storage.securityContext }}
           securityContext:
             runAsUser: 1000
@@ -162,4 +179,7 @@ spec:
           - name: {{ .Values.mountSecret.name }}
             secret:
               secretName: {{ .Values.mountSecret.name }}
+          - name: {{ .Values.mountSecretB64enc.name }}
+            secret:
+              secretName: {{ .Values.mountSecretB64enc.name }}
 {{ end }}
