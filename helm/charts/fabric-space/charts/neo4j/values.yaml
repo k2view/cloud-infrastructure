@@ -20,7 +20,7 @@ labels:
 
 container:
   image:
-    url: neo4j:5.18-enterprise
+    url: neo4j:5.25.1-enterprise
     repoSecret:
       name: "registry-secret"
       enabled: false
