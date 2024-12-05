@@ -14,7 +14,7 @@ spec:
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
-    {{- if and .Values.ingress.tlsSecret.enabled (ne .Values.ingress.tlsSecret.key "") (ne .Values.ingress.tlsSecret.crt "") }}
+    {{- if and .Values.ingress.tlsSecret.enabled (or (and (ne .Values.ingress.tlsSecret.key "") (ne .Values.ingress.tlsSecret.crt "")) (and (ne .Values.ingress.tlsSecret.key_b64 "") (ne .Values.ingress.tlsSecret.crt_b64 ""))) }}
     secretName: fabric-private-ingress-ssl
     {{- else if .Values.ingress.cert_manager.enabled }}
     secretName: cert-manager-ssl-cert
