@@ -117,7 +117,9 @@ ingress:
       - key: nginx.ingress.kubernetes.io/proxy-body-size
         value: "0"
       - key: nginx.ingress.kubernetes.io/proxy-read-timeout
-        value: "7d"
+        value: "86400"
+      - key: nginx.ingress.kubernetes.io/proxy-send-timeout
+        value: "900"
       - key: nginx.ingress.kubernetes.io/ssl-redirect
         value: "false"
 
