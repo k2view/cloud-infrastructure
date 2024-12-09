@@ -154,3 +154,4 @@ The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 | serviceAccount.arn | string | `""` | IAM role ARN for AWS service accounts. |
 | serviceAccount.gcp_service_account_name | string |`""`| Service account name for GCP. |
 | serviceAccount.project_id | string |`""`| Project ID for GCP service accounts. |
+
