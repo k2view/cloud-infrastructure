@@ -9,8 +9,10 @@ metadata:
     {{- range $label := .Values.labels }}
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
+  annotations:
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: "shadi-test"
 spec:
-  ingressClassName: webapprouting.kubernetes.azure.com
+  ingressClassName: azure-application-gateway
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
