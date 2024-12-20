@@ -10,7 +10,7 @@ metadata:
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
 spec:
-  ingressClassName: webapprouting.kubernetes.azure.com
+  ingressClassName: azure-application-gateway
   tls:
   - hosts:
     - {{ .Values.ingress.host }}
