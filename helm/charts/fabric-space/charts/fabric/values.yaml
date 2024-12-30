@@ -47,6 +47,11 @@ container:
   livenessProbe:
     initialDelaySeconds: 120
     periodSeconds: 60
+  readinessProbe:
+    initialDelaySeconds: 120
+    periodSeconds: 30
+    failureThreshold: 5
+    successThreshold: 1
 
   # Fabric Image to be populated into Deployment
   image:
