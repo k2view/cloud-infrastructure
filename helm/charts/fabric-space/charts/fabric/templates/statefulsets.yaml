@@ -158,6 +158,15 @@ spec:
                 command:
                 - /bin/bash
                 - /opt/apps/fabric/isAlive.sh
+            readinessProbe:
+              initialDelaySeconds: {{ .Values.container.readinessProbe.initialDelaySeconds | default 120 }}
+              periodSeconds: {{ .Values.container.readinessProbe.periodSeconds | default 60 }}
+              successThreshold: {{ .Values.container.readinessProbe.successThreshold | default 30 }}
+              failureThreshold: {{ .Values.container.readinessProbe.failureThreshold | default 5 }}
+              exec:
+                command:
+                - /bin/bash
+                - /opt/apps/fabric/isAlive.sh
             volumeMounts:
             - name: fabric-storage-private
               mountPath: /opt/apps/fabric/workspace
