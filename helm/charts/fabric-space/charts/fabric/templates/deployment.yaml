@@ -114,7 +114,7 @@ spec:
             lifecycle:
               preStop:
                 exec:
-                  command: ["/bin/bash", "-l", "-c", "k2fabric stop"]
+                  command: ["/bin/bash", "-l", "-c", "timeout 120 k2fabric stop || true"]
             ports:
             - containerPort: 3213
             - containerPort: 7170
@@ -170,6 +170,7 @@ spec:
             - name: {{ .Values.mountSecretB64enc.name }}
               mountPath: {{ .Values.mountSecretB64enc.mountPath }}
             {{- end }}
+          terminationGracePeriodSeconds: 150
           {{ if .Values.storage.securityContext }}
           securityContext:
             runAsUser: 1000
