@@ -190,4 +190,6 @@ spec:
           - name: {{ .Values.mountSecretB64enc.name }}
             secret:
               secretName: {{ .Values.mountSecretB64enc.name }}
+    strategy:
+      type: Recreate
 {{ end }}
