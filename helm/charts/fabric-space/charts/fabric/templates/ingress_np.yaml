@@ -1,34 +1,40 @@
-{{ if .Values.networkPolicy.ingress.enabled }}
+{{ $namespace := default dict .Values.namespace }}
+{{ $global := default dict .Values.global }}
+{{ $labels := default dict $global.labels }}
+{{ $networkPolicy := default dict .Values.networkPolicy }}
+{{ $ingress := default dict $networkPolicy.ingress }}
+
+{{ if $ingress.enabled | default false }}
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: fabric-monitor-np
-  namespace: {{ .Values.namespace.name }}
+  namespace: {{ default .Release.Name $namespace.name }}
 spec:
   podSelector:
     matchLabels:
-      {{- range $label := .Values.labels }}
+      {{- range $label := $labels }}
       {{ $label.name }}: {{ $label.value }}
       {{- end }}
   ingress:
     - from:
       - namespaceSelector:
           matchLabels:
-            {{- range $key, $value := .Values.networkPolicy.ingress.allowedNamespaces }}
+            {{- range $key, $value := $ingress.allowedNamespaces }}
             {{ $key }}: {{ $value }}
             {{- end }}
         podSelector:
           matchLabels:
-            {{- range $key, $value := .Values.networkPolicy.ingress.allowedPods }}
+            {{- range $key, $value := $ingress.allowedPods }}
             {{ $key }}: {{ $value }}
             {{- end }}
       ports:
         - port: 7070
         - port: 7170
         - port: 9100
-    {{- if .Values.networkPolicy.ingress.allowedIPs }}
+    {{- if $ingress.allowedIPs }}
     - from:
-      {{- range .Values.networkPolicy.ingress.allowedIPs }}
+      {{- range $ingress.allowedIPs }}
       - ipBlock:
           cidr: {{ . }}
       {{- end }}
