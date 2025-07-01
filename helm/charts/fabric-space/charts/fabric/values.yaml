@@ -1,26 +1,14 @@
 global:
-  namespace:
-    name: "space-tenant"
-
   labels:
-    - name: tenant
-      value: my-tenant
-    - name: space
-      value: my-space
+    #- name: label-name
+    #  value: label-value
 
 namespace:
-  name: "space-tenant"
   create: false
-
-labels:
-  - name: tenant
-    value: my-tenant
-  - name: space
-    value: my-space
+  name: "space-tenant"
 
 deploy:
-  type: Deployment 
-  # type = StatefulSet|Deployment
+  type: Deployment # Deployment|StatefulSet
 
 serviceAccount:
   create: true   # For new sa, creation of sa only in k8s side
@@ -44,14 +32,6 @@ container:
     requests:
       memory: 2Gi
       cpu: '0.4'
-  livenessProbe:
-    initialDelaySeconds: 120
-    periodSeconds: 60
-  readinessProbe:
-    initialDelaySeconds: 120
-    periodSeconds: 30
-    failureThreshold: 5
-    successThreshold: 1
 
   # Fabric Image to be populated into Deployment
   image:
@@ -65,22 +45,16 @@ container:
             username: ""
             password: ""
 
-
-# Fabrics Advertising Bound Port (Where it accessable)
-listening_port: 3213
-
 storage:
   pvc:
     enabled: true
   securityContext: true
-  class: gp2
+  class: managed
   alocated_amount: 10Gi
 
 # Wether if Fabric will scale up or not
 scaling:
   enabled: false
-  targetKind: StatefulSet
-  targetName: fabric-stateful-sets
   minReplicas: 1
   maxReplicas: 1
   targetCPU: 90
@@ -107,14 +81,9 @@ ingress:
   cert_manager:
     enabled: false
     cluster_issuer: ""
-  port: 3213
   host: space-tenant.domain
   tlsSecret:
     enabled: false
-    key: ""
-    crt: ""
-    key_b64: ""
-    crt_b64: ""
 
   custom_annotations:
     enabled: false
@@ -157,26 +126,20 @@ mountSecretB64enc:
     enabled: false # true for mount the secret on fabric pod, false for mount only on init container
     mountPath: /opt/apps/fabric/config-secrets
     data:
-      keystore: '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'
+      placeholder: ''
 
 secretsList:
   - name: common-env-secrets
     data:
-      CONFIG_UPDATE_FILE: '/opt/apps/fabric/config-secrets/config'
-      COPY_FILES: ''
-      INIT_CONF: ''
       PROJECT_ID: ''
       PROJECT_NAME: ''
       SPACE_NAME: ''
-  # - name: cassandra-secrets
-  #   data:
-  #     cassandra.default.user: "cassandra"
-  #     cassandra.default.password: "cassandra"
-  #     cassandra.default.hosts: "cassandra-service"
 
 initSecretsList:
   - name: config-init-secrets
     data:
+      CONFIG_UPDATE_FILE: '/opt/apps/fabric/config-secrets/config'
+      COPY_FILES: '/opt/apps/fabric/config-secrets/cp_files'
       IDP_CERT_PATH: ''
       IDP_ROLE: ''
       GIT_BRANCH: ''
