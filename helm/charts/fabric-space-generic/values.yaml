@@ -1,0 +1,245 @@
+cassandra:
+  enabled: false
+  app_name: "cassandra"
+
+  labels:
+    - name: podMonitor
+      value: enabled
+
+  container:
+    image:
+      url: cassandra:4.1.5
+    storage_path: "/var/lib/cassandra"
+    
+  secrets:
+  - key: HEAP_NEWSIZE
+    value: 128M
+  - key: MAX_HEAP_SIZE
+    value: 2G
+  - key: CASSANDRA_DC
+    value: DC1
+  - key: CASSANDRA_ENDPOINT_SNITCH
+    value: GossipingPropertyFileSnitch
+
+  # Deploy network policy that allow ingress only from Fabric pod
+  networkPolicy:
+    enabled: false
+
+  # Cassandra port
+  service:
+    port: 9042
+
+  storage:
+    class: managed
+    alocated_amount: 10Gi
+
+postgres:
+  enabled: false
+  app_name: "postgres"
+
+  labels:
+    - name: podMonitor
+      value: enabled
+
+  container:
+    image:
+      url: postgres:15.7
+    storage_path: "/opt/apps/pgsql/data/data/"
+
+  secrets:
+  - key: PGDATA
+    value: "/opt/apps/pgsql/data/data/pgdata"
+  - key: POSTGRES_PASSWORD
+    value: postgres
+  - key: POSTGRES_USERNAME
+    value: postgres
+
+  networkPolicy:
+    enabled: true
+  
+  # PG port
+  service:
+    port: 5432
+
+  storage:
+    class: managed
+    alocated_amount: 10Gi
+
+kafka:
+  enabled: false
+  app_name: "kafka"
+
+  labels:
+    - name: podMonitor
+      value: enabled
+
+  container:
+    image:
+      url: docker.share.cloud.k2view.com/k2view/kafka:7.2
+    storage_path: "/home/kafka/zk_data"
+
+  secrets:
+  - key: DATA
+    value: "/home/kafka/zk_data"
+
+  networkPolicy:
+    enabled: true
+
+  # Kafka port
+  service:
+    port: 9093
+
+  storage:
+    class: managed
+    alocated_amount: 10Gi  
+
+neo4j:
+  enabled: false
+  app_name: "neo4j"
+
+  labels:
+    - name: podMonitor
+      value: enabled
+
+  container:
+    image:
+      url: neo4j:5.25.1-enterprise
+    storage_path: "/var/lib/neo4j/data"
+
+  secrets:
+  - key: NEO4J_PLUGINS
+    value: '["graph-data-science", "apoc"]'
+  - key: NEO4J_server_config_strict__validation_enabled
+    value: "false"
+  - key: NEO4J_AUTH
+    value: "neo4j/changeit"
+  - key: NEO4J_ACCEPT_LICENSE_AGREEMENT
+    value: "yes"
+
+  networkPolicy:
+    enabled: true
+
+  # Neo4j port
+  service:
+    port: 7687
+
+  storage:
+    class: managed
+    alocated_amount: 10Gi
+
+fabric:
+  enabled: true
+
+  namespace:
+    create: true
+
+  labels:
+    - name: podMonitor
+      value: enabled
+
+  deploy:
+    type: StatefulSet # Deployment | StatefulSet
+
+  serviceAccount:
+    create: true   # For new sa, creation of sa only in k8s side
+    name: ""       # For existing sa, if create is true, name should be an empty string
+    provider: ""   # aws|gcp
+    arn: ""        # For AWS role
+    # gcp_service_account_name: "" # For GCP sa
+    project_id: "" # For GCP SA
+    cluster_name: ""
+    azure_client_id: "" # For Azure Managed Identity
+      
+  container:
+    replicas: 1
+    resource_allocation:
+      limits:
+        memory: 8Gi
+        cpu: '2'
+      requests:
+        memory: 4Gi
+        cpu: '0.5'
+    
+    # Fabric Image to be populated into Deployment
+    image:
+      url: ""
+      repoSecret:
+        enabled: false
+
+  storage:
+    pvc:
+      enabled: true
+    securityContext: true
+    class: managed
+    alocated_amount: 10Gi
+
+  # Wether if Fabric will scale up or not
+  scaling:
+    enabled: false
+
+  # Deploy network policy that allow to fabric egress only to cassandra pod
+  networkPolicy:
+    ingress:
+      enabled: false
+    egress:
+      enabled: false
+
+  ingress:
+    # Domain based / path based
+    host: space-tenant.domain/domain
+    # only if path based space - space-tenant
+    path: ""
+
+  # Each key in the data will be mounted as a file under mountPath
+  mountSecret:
+    name: config-secrets
+    enabled: false # true for mount the secret on fabric pod, false for mount only on init container
+    mountPath: /opt/apps/fabric/config-secrets
+    data:
+      config: |
+        fabricdb|MDB_DEFAULT_SCHEMA_CACHE_STORAGE_TYPE|NFS
+        fabricdb|MDB_DEFAULT_CACHE_PATH|/opt/apps/fabric/pod_tmp/fdb_cache
+        system_db|SYSTEM_DB_TYPE|SQLITE
+        system_db|SYSTEM_DB_HOST|/opt/apps/fabric/workspace/internal_db
+        default_pubsub|TYPE|MEMORY
+        common_area_pubsub|TYPE|MEMORY
+        fabric|WEB_SESSION_EXPIRATION_TIME_OUT|540
+        fabric|ENABLE_BROADWAY_DEBUG_SERVLET|true
+        default_session|RECONNECT_MAX_DELAY_MS|1000
+        fabric|ENABLE_DB_INTERFACE_PROXY|true
+        fabric|WEBSERVER_FILTERS|[{\"class\":\"com.k2view.cdbms.ws.ProxyForward\",\"patterns\":[\"/studio/*\"],\"params\":{\"target\":\"http://localhost:3000\",\"isStaticTarget\":true}},{\"class\":\"com.k2view.cdbms.ws.ProxyForward\",\"patterns\":[\"/socket.io/*\"],\"params\":{\"target\":\"http://localhost:3000\",\"isStaticTarget\":false}}]
+        fabric|OVERRIDE_API_SCHEMA|HTTPS|ADD
+        fabric|OVERRIDE_API_PORT|443|ADD
+      cp_files: ''
+      idp_cert: ''
+      #cp_files: '/opt/apps/fabric/config-secrets/rolesPrivileges.json /opt/apps/fabric/workspace/config/rolesPrivileges.json\n/opt/apps/fabric/config-secrets/adminInitialCredentials /opt/apps/fabric/workspace/config/adminInitialCredentials\n'
+      #rolesPrivileges.json: '{"apikeys":{"xxxxxxxxxxxx":["deployer"]},"roles":{"deployer":["DEPLOY","DEPLOY_ENVIRONMENTS","SET_GLOBAL_ENVIRONMENT","DROP_LUTYPE"]}}'
+      #adminInitialCredentials: "admin/xxxxx"
+  
+  # Mounting secrets to the fabric pod will be not decoded to base64
+  mountSecretB64enc:
+      name: mount-b64-secrets
+      enabled: false # true for mount the secret on fabric pod, false for mount only on init container
+      mountPath: /opt/apps/fabric/mount-b64-secrets
+      data:
+        test: ''
+
+  # Each key will be added as enviroment to the fabric container
+  secretsList:
+    - name: common-env-secrets
+      data:
+        CONFIG_UPDATE_FILE: ''
+        COPY_FILES: ''
+        MAX_HEAP: '4G'
+
+  initSecretsList:
+  - name: config-init-secrets
+    data:
+      CONFIG_UPDATE_FILE: '/opt/apps/fabric/config-secrets/config'
+      COPY_FILES: '/opt/apps/fabric/config-secrets/cp_files'
+      MAX_HEAP: '4G'
+      GIT_BRANCH: 'main'
+      GIT_PATH_IN_REPO: ''
+      GIT_REPO: ''
+      GIT_TOKEN: ''
+      START_FABRIC: 'false'
