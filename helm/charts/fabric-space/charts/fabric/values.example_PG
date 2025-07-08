@@ -1,0 +1,158 @@
+
+global:
+  labels:
+    - name: tenant
+      value: my-tenant
+    - name: space
+      value: my-space
+
+namespace:
+  name: "space-tenant"
+  create: true
+
+deploy:
+  type: Deployment 
+  # type = StatefulSet|Deployment
+
+serviceAccount:
+  create: true   # For new sa, creation of sa only in k8s side
+  name: ""       # For existing sa, if create is true, name should be an empty string
+  provider: ""   # aws|gcp
+  arn: ""        # For AWS role
+  # gcp_service_account_name: "" # For GCP sa
+  project_id: "" # For GCP SA
+  cluster_name: ""
+
+container:
+  replicas: 1
+  annotationsList:
+  - name: description
+    value: Fabric on Kubernetes
+  resource_allocation:
+    limits:
+      memory: 8Gi
+      cpu: '2'
+    requests:
+      memory: 2Gi
+      cpu: '0.4'
+
+
+  # Fabric Image to be populated into Deployment
+  image:
+    url: "" 
+    repoSecret:
+      name: "registry-secret"
+      enabled: false
+      dockerRegistry:
+        auths:
+          "docker.share.cloud.k2view.com":
+            username: ""
+            password: ""
+
+
+# Fabric's Advertising Bound Port (Where it is accessible)
+listening_port: 3213
+
+storage:
+  pvc:
+    enabled: true
+  securityContext: true
+  class: regional-pd
+  alocated_amount: 10Gi
+
+
+scaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 1
+  targetCPU: 90
+
+
+networkPolicy:
+  egress:
+    enabled: false
+  ingress:
+    enabled: false
+
+ingress:
+  enabled: true
+  class_name: "nginx"
+  type: "nginx"
+  appgw_ssl_certificate_name: ""
+  port: 3213
+  host: space-tenant.domain
+  tlsSecret:
+    enabled: false
+    key: ""
+    crt: ""
+    key_b64: ""
+    crt_b64: ""
+
+  custom_annotations:
+    enabled: false
+    annotations:
+      - key: nginx.ingress.kubernetes.io/proxy-body-size
+        value: "0"
+      - key: nginx.ingress.kubernetes.io/proxy-read-timeout
+        value: "7d"
+      - key: nginx.ingress.kubernetes.io/ssl-redirect
+        value: "false"
+
+mountSecret:
+    name: config-secrets
+    enabled: false # true for mount the secret on fabric pod, false for mount only on init container
+    mountPath: /opt/apps/fabric/config-secrets
+    data:
+      config: |
+        [fabricdb]
+        MDB_DEFAULT_CACHE_PATH=/opt/apps/fabric/pod_tmp/fdb_cache
+
+        [default_pubsub]
+        TYPE=MEMORY
+
+        [common_area_pubsub]
+        TYPE=MEMORY
+
+        [fabric]
+        WEB_SESSION_EXPIRATION_TIME_OUT=540
+        ENABLE_BROADWAY_DEBUG_SERVLET=true
+        ENABLE_DB_INTERFACE_PROXY=true
+        WEBSERVER_FILTERS=[{"class":"com.k2view.cdbms.ws.ProxyForward","patterns":["/studio/*"],"params":{"target":"http://localhost:3000","isStaticTarget":true}}, {"class":"com.k2view.cdbms.ws.ProxyForward","patterns":["/socket.io/*"],"params":{"target":"http://localhost:3000","isStaticTarget":false}}]
+        OVERRIDE_API_SCHEMA=HTTPS
+        OVERRIDE_API_PORT=443
+        SERVER_AUTHENTICATOR=fabric
+
+        [default_session]
+        RECONNECT_MAX_DELAY_MS=1000
+
+        [system_db]
+        SYSTEM_DB_TYPE=POSTGRESQL
+        SYSTEM_DB_HOST=postgres-service
+        SYSTEM_DB_PORT=5432
+        SYSTEM_DB_USER=postgres
+        SYSTEM_DB_PASSWORD=postgres
+        SYSTEM_DB_DATABASE=postgres
+      cp_files: ''
+
+
+secretsList:
+  - name: common-env-secrets
+    data:
+      PROJECT_ID: ''
+      PROJECT_NAME: ''
+      SPACE_NAME: 'space-tenant'
+
+initSecretsList:
+  - name: config-init-secrets
+    data:
+      GIT_BRANCH: ''
+      GIT_PATH_IN_REPO: ''
+      GIT_REPO: ''
+      GIT_TOKEN: ''
+      START_FABRIC: 'false' 
+
+affinity:
+  type: none  # Options: affinity, anti-affinity, none
+  label: 
+    name: topology.kubernetes.io/zone
+    value: region-a
