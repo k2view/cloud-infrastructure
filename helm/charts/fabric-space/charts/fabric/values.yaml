@@ -1,21 +1,17 @@
-
 # Global labels for all Fabric resources
 global:
   labels:
     #- name: label-name
     #  value: label-value
 
-
 # Namespace to deploy Fabric into
 namespace:
   create: false  # Create namespace if true
   name: "space-tenant"
 
-
 # Deployment type: Deployment (dev) or StatefulSet (prod)
 deploy:
   type: Deployment
-
 
 # ServiceAccount settings (IAM integration)
 serviceAccount:
@@ -27,7 +23,6 @@ serviceAccount:
   project_id: "" # GCP project
   cluster_name: "" # GCP cluster
   azure_client_id: "" # Azure Managed Identity client ID
-
 
 # Container settings
 container:
