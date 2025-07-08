@@ -4,7 +4,7 @@
 {{ $global := default dict .Values.global }}
 {{ $labels := default dict $global.labels }}
 {{ $serviceAccount := default dict .Values.serviceAccount }}
-{{ $serviceAccountName := default .Release.Name $serviceAccount.name }}
+{{ $serviceAccountName := default .Release.Name (default $namespace.name $serviceAccount.name) }}
 {{ $storage := default dict .Values.storage }}
 {{ $container := default dict .Values.container }}
 {{ $imageRepoSecret := default dict $container.image.repoSecret }}
