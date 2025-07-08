@@ -1,6 +1,6 @@
 # Fabric Helm Chart
 
-![Version: 1.2.16](https://img.shields.io/badge/Version-1.2.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2.0](https://img.shields.io/badge/AppVersion-8.2.0-informational?style=flat-square)
+![Version: 1.2.17](https://img.shields.io/badge/Version-1.2.17-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2.0](https://img.shields.io/badge/AppVersion-8.2.0-informational?style=flat-square)
 
 ## Overview
 
@@ -127,19 +127,27 @@ The following table lists the main configurable parameters of the Fabric chart a
 | `ingress.class_name` | string | `nginx` | Ingress class name |
 | `ingress.type` | string | `nginx` | Ingress type |
 | `ingress.host` | string | `space-tenant.domain` | Ingress host |
+| `ingress.path` | bool/string | `false` | Boolean true uses same value as namespace or hardcoded "string" |
+| `ingress.subdomain` | bool/string | `false` | Boolean true uses same value as namespace or hardcoded "string" |
+| `ingress.appgw_ssl_certificate_name` | string | `""` | Azure Application Gateway SSL certificate name |
 | `ingress.tlsSecret.enabled` | bool | `false` | Enable TLS secret for ingress |
 | `ingress.cert_manager.enabled` | bool | `false` | Enable cert-manager integration |
+| `ingress.cert_manager.cluster_issuer` | string | `""` | cert-manager ClusterIssuer name |
 | `ingress.custom_annotations.enabled` | bool | `false` | Enable custom ingress annotations |
+| `ingress.custom_annotations.annotations` | list | See `values.yaml` | Custom ingress annotations |
 | `mountSecret.enabled` | bool | `false` | Mount decoded secret to pod |
 | `mountSecret.name` | string | `config-secrets` | Name of the secret to mount |
-| `mountSecret.mountPath` | Path to mount the secret | `/opt/apps/fabric/config-secrets` |
-| `mountSecret.data` | Data to mount as secret | See `values.yaml` |
-| `mountSecretB64enc.enabled` | Mount base64-encoded secret to pod | `false` |
-| `secretsList` | List of additional secrets | `[]` |
-| `initSecretsList` | List of init container secrets | `[]` |
-| `affinity.type` | Pod affinity/anti-affinity/none | `none` |
-| `affinity.label.name` | Affinity label name | `topology.kubernetes.io/zone` |
-| `affinity.label.value` | Affinity label value | `region-a` |
+| `mountSecret.mountPath` | string | `/opt/apps/fabric/config-secrets` | Path to mount the secret |
+| `mountSecret.data` | object | See `values.yaml` | Data to mount as secret (see config, cp_files, idp_cert) |
+| `mountSecretB64enc.enabled` | bool | `false` | Mount base64-encoded secret to pod |
+| `mountSecretB64enc.name` | string | `mount-b64-secrets` | Name of the base64 secret to mount |
+| `mountSecretB64enc.mountPath` | string | `/opt/apps/fabric/config-secrets` | Path to mount the base64 secret |
+| `mountSecretB64enc.data` | object | See `values.yaml` | Data to mount as base64 secret |
+| `secretsList` | list | `[]` | List of additional secrets (see structure in values.yaml) |
+| `initSecretsList` | list | `[]` | List of init container secrets (see structure in values.yaml) |
+| `affinity.type` | string | `none` | Pod affinity/anti-affinity/none |
+| `affinity.label.name` | string | `topology.kubernetes.io/zone` | Affinity label name |
+| `affinity.label.value` | string | `region-a` | Affinity label value |
 
 > **Tip:** For advanced configuration and secret formats, refer to the comments in `values.yaml`.
 
@@ -257,7 +265,20 @@ ingress:
 
 ### Ingress Routing Types
 
-The Fabric Helm chart supports two primary ingress routing strategies, allowing flexibility based on your domain and certificate setup:
+
+The Fabric Helm chart supports two primary ingress routing strategies, allowing flexibility based on your domain and certificate setup. The routing logic is controlled by the `ingress.path` and `ingress.subdomain` parameters:
+
+- `ingress.path`: If set to `true`, the path will be set to the namespace name. If set to a string, that string will be used as the path. If set to `false`, path-based routing is disabled.
+- `ingress.subdomain`: If set to `true`, the subdomain will be set to the namespace name. If set to a string, that string will be used as the subdomain. If set to `false`, subdomain-based routing is disabled.
+
+This allows for flexible ingress host and path generation, supporting both domain-based and path-based routing, as well as custom values for advanced scenarios.
+
+**Summary:**
+- Use `ingress.subdomain` for subdomain-based routing (e.g., `space-tenant.domain`).
+- Use `ingress.path` for path-based routing (e.g., `domain/space-tenant`).
+- You can set either to `true` (use namespace), a string (custom value), or `false` (disable).
+
+Below are the two most common routing strategies:
 
 #### 1. Domain-Based Routing (Wildcard TLS)
 This method is recommended when you have a wildcard TLS certificate for your domain. Each space is accessed via a subdomain (e.g., `space-tenant.domain`).
@@ -268,6 +289,7 @@ This method is recommended when you have a wildcard TLS certificate for your dom
 **How to use:**
 - Set `ingress.host` to the subdomain (e.g., `space-tenant.domain`)
 - Set `ingress.path` to `/` or leave it blank (default)
+- Optional: set `ingress.subdomain` to `true` to use namespace name as subdomain
 
 **Example values.yaml:**
 ```yaml
@@ -317,6 +339,7 @@ Use this method if you do not have a wildcard TLS certificate. Each space is acc
 **How to use:**
 - Set `ingress.host` to your domain (e.g., `domain`)
 - Set `ingress.path` to the space name (e.g., `space-tenant`)
+- Optional: set `ingress.path` to `true` to use namespace name as a path prefix
 
 **Example values.yaml:**
 ```yaml
