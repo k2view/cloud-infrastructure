@@ -1,18 +1,15 @@
 {{ $namespace := default dict .Values.namespace }}
-{{ $global := default dict .Values.global }}
-{{ $labels := default dict $global.labels }}
-{{ $storage := default dict .Values.storage }}
-{{ $pvc := default dict $storage.pvc }}
-
-{{ if $pvc.enabled | default true }}
+{{- $storage := default dict .Values.storage -}}
+{{- $app_name := .Values.app_name | default .Chart.Name -}}
+{{- /* ---------------------------- */ -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  name: fabric-claim
+  name: {{ $app_name }}-claim
   namespace: {{ default .Release.Name $namespace.name }}
   labels:
-    app: fabric
-    {{- range $label := $labels }}
+    app: {{ $app_name }}
+    {{- range $label := .Values.labels }}
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
 spec:
@@ -23,5 +20,4 @@ spec:
   {{- end }}
   resources:
     requests:
-      storage: {{ $storage.alocated_amount | default "10Gi" }}
-{{ end }}
+      storage: {{ default "10Gi" $storage.alocated_amount }}
