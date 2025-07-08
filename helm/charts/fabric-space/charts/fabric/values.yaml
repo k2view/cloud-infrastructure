@@ -24,7 +24,6 @@ serviceAccount:
   cluster_name: "" # GCP cluster
   azure_client_id: "" # Azure Managed Identity client ID
 
-
 # Container settings
 container:
   replicas: 1
@@ -96,6 +95,8 @@ ingress:
   # This is the hostname that will be used to access the Fabric service.
   # It should be a fully qualified domain name (FQDN).
   host: space-tenant.domain
+  path: false # boolean true uses same value as namespace or hardcoded "string"
+  subdomain: false # boolean true uses same value as namespace or hardcoded "string"
   tlsSecret:
     enabled: false
 
