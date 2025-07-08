@@ -1,0 +1,57 @@
+{{ $namespace := default dict .Values.namespace }}
+{{ $global := default dict .Values.global }}
+{{ $labels := default dict $global.labels }}
+{{ $ingress := default dict .Values.ingress }}
+{{ $cert_manager := default dict $ingress.cert_manager }}
+
+{{ if $ingress.enabled | default true }}
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: fabric-ingress
+  namespace: {{ default .Release.Name $namespace.name }}
+  labels:
+    app: fabric
+    {{- range $label := $labels }}
+    {{ $label.name }}: {{ $label.value }}
+    {{- end }}
+  annotations:
+    {{- if and $ingress.custom_annotations.enabled }}
+    {{- range $label := $ingress.custom_annotations.annotations }}
+    {{ $label.key }}: {{ $label.value | quote }}
+    {{- end }}
+    {{- else if eq $ingress.type "nginx" }}
+    nginx.ingress.kubernetes.io/proxy-body-size: "0"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "86400"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "900"
+    {{- else if eq $ingress.type "appgw" }}
+    {{- if ne $ingress.appgw_ssl_certificate_name "" }}
+    appgw.ingress.kubernetes.io/appgw-ssl-certificate: {{ $ingress.appgw_ssl_certificate_name }}
+    {{- end }}
+    appgw.ingress.kubernetes.io/ssl-redirect: "true"
+    {{- end }}
+    {{- if and $cert_manager.enabled (ne $cert_manager.cluster_issuer "") }}
+    cert-manager.io/cluster-issuer: {{ $cert_manager.cluster_issuer }}
+    {{- end }}
+spec:
+  ingressClassName: {{ $ingress.class_name | default "nginx" }}
+  tls:
+  - hosts:
+    - {{ $ingress.host }}
+    {{- if $ingress.tlsSecret.enabled }}
+    secretName: fabric-private-ingress-ssl
+    {{- else if $cert_manager.enabled }}
+    secretName: cert-manager-ssl-cert
+    {{- end }}
+  rules:
+  - host: {{ $ingress.host }}
+    http:
+      paths:
+        - path: /{{- if $ingress.path }}{{ $ingress.path }}{{- end }}
+          pathType: Prefix
+          backend:
+            service:
+              name: fabric-service
+              port:
+                number: {{ $ingress.port | default 3213 }}
+{{ end }}

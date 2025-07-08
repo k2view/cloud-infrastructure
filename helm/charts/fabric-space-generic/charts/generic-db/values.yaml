@@ -1,0 +1,55 @@
+# app_name will be app label and prefix for resources
+# Supported values: postgres, cassandra, kafka, neo4j
+
+# deployment.yaml
+container:
+  image:
+    url: postgres:15.8
+    # repoSecret:
+    #   name: "registry-secret"
+    #   enabled: false
+    #   dockerRegistry:
+    #     auths:
+    #       "docker.share.cloud.k2view.com":
+    #         username: ""
+    #         password: ""
+  storage_path: "/opt/apps/pgsql/data/data/"
+  resource_allocation:
+    limits:
+      memory: 4Gi
+      cpu: '1'
+    requests:
+      memory: 1Gi
+      cpu: '0.4'
+
+# secrets.yaml
+# Default secrets will be set based on app_name if not provided
+# secrets:
+# - key: POSTGRES_USERNAME
+#   value: "postgres"
+# - key: POSTGRES_PASSWORD
+#   value: "postgres"
+# - key: PGDATA
+#   value: "/opt/apps/pgsql/data/data/pgdata"
+
+# ingress_np.yaml
+networkPolicy:
+  enabled: true
+
+# service.yaml
+# Default port will be set based on app_name if not provided
+service:
+  port: 5432
+
+# pvc.yaml
+storage:
+  class: managed
+  alocated_amount: 10Gi
+  securityContext: true
+
+# Affinity settings
+# affinity:
+#   type: "none"  # none, affinity, anti-affinity
+#   label:
+#     name: "topology.kubernetes.io/zone"
+#     value: "region-a"

@@ -1,6 +1,6 @@
 # fabric
 
-![Version: 1.1.22](https://img.shields.io/badge/Version-1.1.22-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.2.0](https://img.shields.io/badge/AppVersion-7.2.0-informational?style=flat-square)
+![Version: 1.1.2](https://img.shields.io/badge/Version-1.1.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.2.0](https://img.shields.io/badge/AppVersion-7.2.0-informational?style=flat-square)
 
 Fabric Helm Chart for Kubernetes
 
@@ -70,8 +70,7 @@ The `fabric` Helm chart is designed to deploy the Fabric application on Kubernet
 | mountSecret.mountPath | string | `"/opt/apps/fabric/config-secrets"` | Mount path for mount secret |
 | mountSecret.name | string | `"config-secrets"` | Name of the mount secret |
 | namespace.name | string | `"space-tenant"` | Namespace for deployment |
-| networkPolicy.egress.enabled | bool | `false` | Enable egress network policy |
-| networkPolicy.ingress.enabled | bool | `true` | Enable ingress network policy |
+| networkPolicy.enabled | bool | `true` | Enable network policy |
 | scaling.enabled | bool | `false` | Enable scaling |
 | scaling.maxReplicas | int | `1` | Maximum replicas for scaling |
 | scaling.minReplicas | int | `1` | Minimum replicas for scaling |

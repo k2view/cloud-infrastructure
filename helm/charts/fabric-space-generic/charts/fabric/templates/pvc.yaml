@@ -1,0 +1,27 @@
+{{ $namespace := default dict .Values.namespace }}
+{{ $global := default dict .Values.global }}
+{{ $labels := default dict $global.labels }}
+{{ $storage := default dict .Values.storage }}
+{{ $pvc := default dict $storage.pvc }}
+
+{{ if $pvc.enabled | default true }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: fabric-claim
+  namespace: {{ default .Release.Name $namespace.name }}
+  labels:
+    app: fabric
+    {{- range $label := $labels }}
+    {{ $label.name }}: {{ $label.value }}
+    {{- end }}
+spec:
+  accessModes:
+    - ReadWriteOnce
+  {{- if $storage.class }}
+  storageClassName: {{ $storage.class }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ $storage.alocated_amount | default "10Gi" }}
+{{ end }}

@@ -1,0 +1,16 @@
+{{ $namespace := default dict .Values.namespace }}
+{{ $global := default dict .Values.global }}
+{{ $labels := default dict $global.labels }}
+
+{{- if $namespace.create | default false }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ default .Release.Name $namespace.name }}
+  labels:
+    app: fabric
+    {{- range $label := $labels }}
+    {{ $label.name }}: {{ $label.value }}
+    {{- end }}
+    subdomain: {{ default .Release.Name $namespace.name }}
+{{- end }}
