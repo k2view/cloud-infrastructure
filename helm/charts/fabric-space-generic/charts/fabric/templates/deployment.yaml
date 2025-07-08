@@ -174,9 +174,9 @@ spec:
                 - /bin/bash
                 - /opt/apps/fabric/isAlive.sh
             readinessProbe:
-              initialDelaySeconds: {{ $readinessProbe.initialDelaySeconds | default 60 }}
+              initialDelaySeconds: {{ $readinessProbe.initialDelaySeconds | default 30 }}
               periodSeconds: {{ $readinessProbe.periodSeconds | default 60 }}
-              successThreshold: {{ $readinessProbe.successThreshold | default 30 }}
+              successThreshold: {{ $readinessProbe.successThreshold | default 3 }}
               failureThreshold: {{ $readinessProbe.failureThreshold | default 5 }}
               exec:
                 command:
