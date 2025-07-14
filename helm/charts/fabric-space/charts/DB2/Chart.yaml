@@ -1,5 +1,0 @@
-apiVersion: v2
-name: DB2
-description: A Helm chart to deploy IBM DB2 database
-version: 0.1.0
-appVersion: "11.5.8.0"
