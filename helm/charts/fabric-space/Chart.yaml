@@ -31,8 +31,3 @@ dependencies:
     version: "~1.2.0-0"
     repository: "file://./charts/neo4j"
     condition: neo4j.enabled
-    
-  - name: DB2
-    version: "~1.2.0-0"
-    repository: "file://./charts/DB2"
-    condition: DB2.enabled
