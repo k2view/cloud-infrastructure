@@ -1,0 +1,72 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: {{ .Values.global.namespace.name }}
+  name: db2-deployment
+  labels:
+    app: db2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: db2
+  template:
+    metadata:
+      labels:
+        app: db2
+    spec:
+      securityContext:
+        fsGroup: 0
+      containers:
+      - name: db2
+        image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        securityContext:
+          privileged: true
+        ports:
+        - containerPort: 50000
+        env:
+          - name: LICENSE
+            value: "{{ .Values.db2.LICENSE }}"
+          - name: DB2INSTANCE
+            value: "{{ .Values.db2.DB2INSTANCE }}"
+          - name: DB2INST1_PASSWORD
+            value: "{{ .Values.db2.DB2INST1_PASSWORD }}"
+          - name: DBNAME
+            value: "{{ .Values.db2.DBNAME }}"
+          - name: BLU
+            value: "{{ .Values.db2.BLU }}"
+          - name: ENABLE_ORACLE_COMPATIBILITY
+            value: "{{ .Values.db2.ENABLE_ORACLE_COMPATIBILITY }}"
+          - name: UPDATEAVAIL
+            value: "{{ .Values.db2.UPDATEAVAIL }}"
+          - name: TO_CREATE_SAMPLEDB
+            value: "{{ .Values.db2.TO_CREATE_SAMPLEDB }}"
+          - name: REPODB
+            value: "{{ .Values.db2.REPODB }}"
+          - name: IS_OSXFS
+            value: "{{ .Values.db2.IS_OSXFS }}"
+          - name: PERSISTENT_HOME
+            value: "{{ .Values.db2.PERSISTENT_HOME }}"
+          - name: HADR_ENABLED
+            value: "{{ .Values.db2.HADR_ENABLED }}"
+          - name: ETCD_ENDPOINT
+            value: "{{ .Values.db2.ETCD_ENDPOINT }}"
+          - name: ETCD_USERNAME
+            value: "{{ .Values.db2.ETCD_USERNAME }}"
+          - name: ETCD_PASSWORD
+            value: "{{ .Values.db2.ETCD_PASSWORD }}"
+        resources:
+          requests:
+            memory: "{{ .Values.resources.requests.memory }}"
+            cpu: "{{ .Values.resources.requests.cpu }}"
+          limits:
+            memory: "{{ .Values.resources.limits.memory }}"
+            cpu: "{{ .Values.resources.limits.cpu }}"
+        volumeMounts:
+        - name: db2-storage
+          mountPath: /database
+      volumes:
+      - name: db2-storage
+        persistentVolumeClaim:
+          claimName: db2-pvc

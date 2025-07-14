@@ -347,3 +347,45 @@ neo4j:
   storage:
     class: efs-pg
     alocated_amount: 10Gi
+
+DB2:
+  enabled: true
+  namespace:
+    name: "space-tenant"
+  image:
+    repository: icr.io/db2_community/db2
+    tag: "latest"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 50000
+
+  storage:
+    alocated_amount: 10Gi
+    class: managed
+
+  db2:
+    LICENSE: accept
+    DB2INSTANCE: db2inst1
+    DB2INST1_PASSWORD: "db2password"
+    DBNAME: testdb
+    BLU: "false"
+    ENABLE_ORACLE_COMPATIBILITY: "false"
+    UPDATEAVAIL: "NO"
+    TO_CREATE_SAMPLEDB: "false"
+    REPODB: "false"
+    IS_OSXFS: "false"
+    PERSISTENT_HOME: "true"
+    HADR_ENABLED: "false"
+    ETCD_ENDPOINT: ""
+    ETCD_USERNAME: ""
+    ETCD_PASSWORD: ""
+  
+  resources:
+    requests:
+      memory: "2Gi"
+      cpu: "200m"
+    limits:
+      memory: "4Gi"
+      cpu: "2000m"
