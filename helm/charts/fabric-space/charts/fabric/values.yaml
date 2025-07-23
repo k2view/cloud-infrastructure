@@ -203,6 +203,7 @@ initSecretsList:
 affinity:
   # Options: affinity, anti-affinity, none
   type: none 
+  
   label: 
     name: topology.kubernetes.io/zone
     value: region-a
