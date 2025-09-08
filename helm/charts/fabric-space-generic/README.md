@@ -151,3 +151,4 @@ Different resource defaults for Deployment and StatefulSet modes:
 - Deployment Mode: Lower resource requirements for single-node setups
 - StatefulSet Mode: Higher resource requirements for cluster deployments.
 
+
