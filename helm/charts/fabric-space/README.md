@@ -48,6 +48,7 @@ The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 | storage.alocated_amount | string | `"10Gi"` | Specifies the amount of storage allocated for Cassandra data, set to 10 gigabytes. |
 | storage.class | string | `"gp2"` | Defines the storage class to be used for Cassandra data storage |
 
+
 ### Postgres
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
