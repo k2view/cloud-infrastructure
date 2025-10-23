@@ -43,7 +43,7 @@ metadata:
     {{- end }}
     {{- if and $ingress.custom_annotations.enabled }}
     {{- range $label := $ingress.custom_annotations.annotations }}
-    {{ $label.key }}: {{ $label.value | quote }}
+    {{ $label.name }}: {{ $label.value | quote }}
     {{- end }}
     {{- else if eq $ingress.type "nginx" }}
     nginx.ingress.kubernetes.io/proxy-body-size: "0"
