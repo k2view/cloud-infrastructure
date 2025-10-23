@@ -32,7 +32,7 @@ metadata:
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
     {{- range $label := $global_labels }}
-    {{ $label.key }}: {{ $label.value }}
+    {{ $label.name }}: {{ $label.value }}
     {{- end }}
   annotations:
     {{- range $annotation := $global_annotations }}

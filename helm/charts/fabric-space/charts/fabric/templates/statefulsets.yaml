@@ -35,7 +35,7 @@ metadata:
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
     {{- range $label := $global_labels }}
-    {{ $label.key }}: {{ $label.value }}
+    {{ $label.name }}: {{ $label.value }}
     {{- end }}
     {{- if eq $serviceAccount.provider "azure" }}
     azure.workload.identity/use: "true"

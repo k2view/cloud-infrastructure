@@ -20,7 +20,7 @@ metadata:
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
     {{- range $label := $global_labels }}
-    {{ $label.key }}: {{ $label.value }}
+    {{ $label.name }}: {{ $label.value }}
     {{- end }}
   {{- if or $global_annotations $resource_annotations $annotations }}
   annotations:
@@ -38,7 +38,7 @@ spec:
   podSelector:
     matchLabels:
       {{- range $label := $global_labels }}
-      {{ $label.key }}: {{ $label.value }}
+      {{ $label.name }}: {{ $label.value }}
       {{- end }}
       {{- range $label := $labels }}
       {{ $label.name }}: {{ $label.value }}
