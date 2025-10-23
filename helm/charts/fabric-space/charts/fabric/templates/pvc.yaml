@@ -1,11 +1,13 @@
 {{ $namespace := default dict .Values.namespace }}
 {{ $global := default dict .Values.global }}
-{{ $labels := $global.labels | default (list) }}
-{{ $global_annotations := $global.annotations | default (list) }}
+{{ $global_labels := default (list) $global.labels }}
+{{ $labels := default (list) .Values.labels }}
+{{ $global_annotations := default (list) $global.annotations }}
+{{ $annotations := default (list) .Values.annotations }}
 {{ $storage := default dict .Values.storage }}
 {{ $pvc := default dict $storage.pvc }}
-{{ $resource_annotations := $storage.annotations | default (list) }}
-{{ $allocated_amount := $storage.alocated_amount | default $storage.allocated_amount }} {{- /* for backward compatibility, fix spelling error */ -}}
+{{ $resource_annotations := default (list) $storage.annotations }}
+{{ $allocated_amount := default $storage.allocated_amount $storage.alocated_amount }} {{- /* for backward compatibility, fix spelling error */ -}}
 
 {{ if $pvc.enabled | default true }}
 apiVersion: v1
@@ -18,12 +20,18 @@ metadata:
     {{- range $label := $labels }}
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
-  {{- if or $global_annotations $resource_annotations }}
+    {{- range $label := $global_labels }}
+    {{ $label.key }}: {{ $label.value }}
+    {{- end }}
+  {{- if or $global_annotations $resource_annotations $annotations }}
   annotations:
     {{- range $annotation := $global_annotations }}
     {{ $annotation.key }}: {{ $annotation.value | quote }}
     {{- end }}
     {{- range $annotation := $resource_annotations }}
+    {{ $annotation.key }}: {{ $annotation.value | quote }}
+    {{- end }}
+    {{- range $annotation := $annotations }}
     {{ $annotation.key }}: {{ $annotation.value | quote }}
     {{- end }}
   {{- end }}

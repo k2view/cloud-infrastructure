@@ -1,6 +1,6 @@
 # Fabric Helm Chart
 
-![Version: 1.2.26](https://img.shields.io/badge/Version-1.2.26-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2.0](https://img.shields.io/badge/AppVersion-8.2.0-informational?style=flat-square)
+![Version: 1.2.27](https://img.shields.io/badge/Version-1.2.27-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2.0](https://img.shields.io/badge/AppVersion-8.2.0-informational?style=flat-square)
 
 ## Overview
 
@@ -123,8 +123,8 @@ The following table lists the main configurable parameters of the Fabric chart a
 
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
-| `global.labels` | array | `[]` | Global labels applied to all resources |
-| `global.annotations` | array | `[]` | Global annotations applied to all resources |
+| `labels` | array | `[]` | Global labels applied to all resources |
+| `annotations` | array | `[]` | Global annotations applied to all resources |
 | `namespace.create` | bool | `false` | Whether to create the namespace |
 | `namespace.name` | string | `"space-tenant"` | Namespace to deploy into |
 | `namespace.annotations` | array | `[]` | Resource-specific annotations for namespace |

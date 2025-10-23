@@ -1,14 +1,13 @@
 
 # Global labels for all Fabric resources
-#global:
-  # labels:
-  #   - name: label-name
-  #     value: label-value
-  # annotations:
-  #   - key: "app.kubernetes.io/component"
-  #     value: "fabric"
-  #   - key: "kubernetes.io/description"
-  #     value: "K2View Fabric data virtualization platform"
+# labels:
+#   - name: label-name
+#     value: label-value
+# annotations:
+#   - key: "app.kubernetes.io/component"
+#     value: "fabric"
+#   - key: "kubernetes.io/description"
+#     value: "K2View Fabric data virtualization platform"
 
 
 # Namespace to deploy Fabric into
