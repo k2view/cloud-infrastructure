@@ -112,8 +112,21 @@ The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 | container.image.url | string | `""` | URL of the container image to be used. |
 | container.image.repoSecret.enabled | bool | `false` | Flag to enable or disable the use of a Docker registry secret. |
 | container.image.repoSecret.dockerRegistry | object |`{}`| Configuration for the Docker registry secret. Includes authentication details like username and password. |
-| container.livenessProbe.initialDelaySeconds | int | `120` | Initial delay in seconds for the liveness probe to start. |
+| container.livenessProbe.initialDelaySeconds | int | `0` | Initial delay in seconds for the liveness probe to start. |
 | container.livenessProbe.periodSeconds | int | `60` | Time period in seconds for the liveness probe to repeat. |
+| container.livenessProbe.timeoutSeconds | int | `15` | Maximum time in seconds for liveness probe execution to fail due to timeout. |
+| container.livenessProbe.successThreshold | int | `1` | How many successful attempts before setting the pod to alive. |
+| container.livenessProbe.failureThreshold | int | `3` | How many failed attempts before setting the pod to dead. |
+| container.readinessProbe.initialDelaySeconds | int | `0` | Initial delay in seconds for the readiness probe to start. |
+| container.readinessProbe.periodSeconds | int | `30` or `15` | Time period in seconds for the readiness probe to repeat. Default value varies between Studio and Fabric-only. |
+| container.readinessProbe.timeoutSeconds | int | `15` | Maximum time in seconds for readiness probe execution to fail due to timeout. |
+| container.readinessProbe.successThreshold | int | `1` | How many successful attempts before setting the pod to healthy. |
+| container.readinessProbe.failureThreshold | int | `3` or `1` | How many failed attempts before setting the pod to unhealthy. Default value varies between Studio and Fabric-only. |
+| container.startupProbe.initialDelaySeconds | int | `30` | Initial delay in seconds for the startup probe to start. |
+| container.startupProbe.periodSeconds | int | `15` | Time period in seconds for the startup probe to repeat. |
+| container.startupProbe.timeoutSeconds | int | `5` | Maximum time in seconds for startup probe execution to fail due to timeout. |
+| container.startupProbe.successThreshold | int | `1` | How many successful attempts before setting the pod to started. |
+| container.startupProbe.failureThreshold | int | `20` | How many failed attempts before setting the pod to failed to start. |
 | container.replicas | int | `1` | Number of container replicas to deploy. |
 | container.resource_allocation.limits.cpu | string | `"1"` | The maximum amount of CPU allocated for the container. |
 | container.resource_allocation.limits.memory | string | `"4Gi"` | The maximum amount of memory allocated for the container. |

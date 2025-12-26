@@ -194,14 +194,6 @@ fabric:
       requests:
         memory: 4Gi
         cpu: '0.5'
-    livenessProbe:
-      initialDelaySeconds: 300
-      periodSeconds: 60
-    readinessProbe:
-      initialDelaySeconds: 120
-      periodSeconds: 30
-      failureThreshold: 5
-      successThreshold: 1
     
     # Fabric Image to be populated into Deployment
     image:
