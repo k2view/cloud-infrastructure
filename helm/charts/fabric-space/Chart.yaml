@@ -3,7 +3,7 @@ name: fabric-space
 description: The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 
 type: application
-version: 1.2.26
+version: 1.2.27
 appVersion: "7.1"
 
 dependencies:
@@ -31,3 +31,8 @@ dependencies:
     version: "~1.2.0-0"
     repository: "file://./charts/neo4j"
     condition: neo4j.enabled
+    
+  - name: DB2
+    version: "~1.2.0-0"
+    repository: "file://./charts/DB2"
+    condition: DB2.enabled

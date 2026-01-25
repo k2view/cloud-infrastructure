@@ -1,0 +1,72 @@
+namespace:
+  name: "space-tenant"
+
+labels:
+  - name: tenant
+    value: my-tenant
+  - name: space
+    value: my-space
+
+# app_name will be app lable and prefix for resources
+app_name: "db2"
+
+# deployment.yaml
+container:
+  image:
+    url: icr.io/db2_community/db2:latest
+  storage_path: "/database"
+
+  resource_allocation:
+    limits:
+      memory: 4Gi
+      cpu: '2'
+    requests:
+      memory: 1Gi
+      cpu: '0.4'
+
+# secrets.yaml
+secrets:
+- key: LICENSE
+  value: "accept"
+- key: DB2INSTANCE
+  value: "db2inst1"
+- key: DB2INST1_PASSWORD
+  value: "db2password"
+- key: DBNAME
+  value: "testdb"
+- key: BLU
+  value: "false"
+- key: ENABLE_ORACLE_COMPATIBILITY
+  value: "false"
+- key: UPDATEAVAIL
+  value: "NO"
+- key: TO_CREATE_SAMPLEDB
+  value: "false"
+- key: REPODB
+  value: "false"
+- key: IS_OSXFS
+  value: "false"
+- key: PERSISTENT_HOME
+  value: "true"
+- key: HADR_ENABLED
+  value: "false"
+- key: ETCD_ENDPOINT
+  value: ""
+- key: ETCD_USERNAME
+  value: ""
+- key: ETCD_PASSWORD
+  value: ""
+
+
+# ingress_np.yaml
+networkPolicy:
+  enabled: false
+
+# service.yaml
+service:
+  port: 50000
+
+# pvc.yaml
+storage:
+  class: managed
+  alocated_amount: 10Gi
