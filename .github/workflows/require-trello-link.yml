@@ -1,0 +1,42 @@
+# Validates that a PR contains a Trello link in title, description, or comments
+name: Require Trello Link
+
+on:
+  pull_request:
+    types: [opened, edited, synchronize, reopened]
+  workflow_dispatch: {}
+
+jobs:
+  require-trello-link:
+    name: require-trello-link
+    runs-on: ubuntu-latest
+
+    permissions:
+      pull-requests: read
+      issues: read
+
+    steps:
+      - name: Validate Trello link
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner
+            const repo  = context.repo.repo
+            const prNum = context.payload.number
+
+            // Load PR data and all comments
+            const pr = await github.rest.pulls.get({ owner, repo, pull_number: prNum })
+            const comments = await github.rest.issues.listComments({ owner, repo, issue_number: prNum })
+
+            const hasTrelloUrl = txt => !!(txt && /https?:\/\/(?:www\.)?trello\.com\/\S+/i.test(txt))
+
+            const found =
+              hasTrelloUrl(pr.data.title) ||
+              hasTrelloUrl(pr.data.body)  ||
+              comments.data.some(c => hasTrelloUrl(c.body))
+
+            if (!found) {
+              core.setFailed('PR must include a Trello link (https://trello.com/...) in the title, description, or comments.')
+            } else {
+              console.log('Trello link found. Validation passed.')
+            }
