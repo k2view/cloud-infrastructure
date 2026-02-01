@@ -1,0 +1,85 @@
+# Re-runs or starts the PR validator when a comment includes a Trello link
+name: Require Trello Link — on comment
+
+on:
+  issue_comment:
+    types: [created, edited]
+
+jobs:
+  rerun-require-trello:
+    name: Rerun Require Trello Link
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
+      pull-requests: read
+
+    if: github.event.issue.pull_request != null
+
+    steps:
+      - name: Trigger rerun if comment includes Trello link
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner
+            const repo  = context.repo.repo
+
+            const body = context.payload.comment?.body || ''
+            let hasTrello = /https?:\/\/(?:www\.)?trello\.com\/\S+/i.test(body)
+
+            if (!hasTrello) {
+              const commentId = context.payload.comment.id
+              const htmlResp = await github.request('GET /repos/{owner}/{repo}/issues/comments/{comment_id}', {
+                owner, repo, comment_id: commentId,
+                headers: { accept: 'application/vnd.github.v3.html+json' }
+              })
+              const html = htmlResp.data?.body_html || ''
+              hasTrello = /href="https?:\/\/(?:www\.)?trello\.com\/[^"]+"/i.test(html)
+            }
+
+            if (!hasTrello) {
+              console.log('No Trello link detected in comment. Skipping.')
+              return
+            }
+
+            const prNumber = context.payload.issue.number
+            const pr = await github.rest.pulls.get({ owner, repo, pull_number: prNumber })
+            const headSha = pr.data.head.sha
+            const headRef = pr.data.head.ref
+
+            const wfs = await github.rest.actions.listRepoWorkflows({ owner, repo })
+            const target = wfs.data.workflows.find(
+              w => w.path.endsWith('require-trello-link.yml')
+            )
+            if (!target) {
+              core.setFailed('Require Trello Link workflow not found.')
+              return
+            }
+
+            let runs = await github.rest.actions.listWorkflowRuns({
+              owner, repo, workflow_id: target.id, head_sha: headSha
+            })
+            let latest = runs.data.workflow_runs?.[0]
+
+            if (!latest) {
+              console.log('Waiting briefly for validator run registration...')
+              await new Promise(r => setTimeout(r, 5000))
+              runs = await github.rest.actions.listWorkflowRuns({
+                owner, repo, workflow_id: target.id, head_sha: headSha
+              })
+              latest = runs.data.workflow_runs?.[0]
+            }
+
+            if (latest) {
+              console.log(`Re-running existing validator run ${latest.id} for SHA ${headSha}`)
+              await github.rest.actions.reRunWorkflow({ owner, repo, run_id: latest.id })
+            } else {
+              console.log('No existing validator run for this commit. Dispatching a new run.')
+              await github.rest.actions.createWorkflowDispatch({
+                owner, repo,
+                workflow_id: target.id,
+                ref: headRef
+              })
+            }
+
+            console.log('Validator re-run or dispatch request submitted.')
