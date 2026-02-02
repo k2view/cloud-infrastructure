@@ -3,7 +3,7 @@ name: fabric-space
 description: The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 
 type: application
-version: 1.2.28
+version: 1.2.29
 appVersion: "7.1"
 
 dependencies:
