@@ -45,7 +45,7 @@ The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 | namespace.create | bool | `true` | Indicates whether to create a new Kubernetes namespace for the Cassandra deployment. |
 | namespace.name | string | `"space-tenant"` | Names the Kubernetes namespace for the deployment. |
 | networkPolicy.enabled | bool | `true` | Determines if a network policy should be applied to the Cassandra deployment. |
-| storage.alocated_amount | string | `"10Gi"` | Specifies the amount of storage allocated for Cassandra data, set to 10 gigabytes. |
+| storage.allocated_amount | string | `"10Gi"` | Specifies the amount of storage allocated for Cassandra data, set to 10 gigabytes. |
 | storage.class | string | `"gp2"` | Defines the storage class to be used for Cassandra data storage |
 
 
@@ -74,7 +74,7 @@ The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 | postgres.namespace.create | bool | `true` |  |
 | postgres.namespace.name | string | `"space-tenant"` |  |
 | postgres.networkPolicy.enabled | bool | `true` |  |
-| postgres.storage.alocated_amount | string | `"10Gi"` |  |
+| postgres.storage.allocated_amount | string | `"10Gi"` |  |
 | postgres.storage.class | string | `"gp2"` |  |
 
 ### Kafka
@@ -100,7 +100,7 @@ The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 | kafka.namespace.create | bool | `true` |  |
 | kafka.namespace.name | string | `"space-tenant"` |  |
 | kafka.networkPolicy.enabled | bool | `true` |  |
-| kafka.storage.alocated_amount | string | `"10Gi"` |  |
+| kafka.storage.allocated_amount | string | `"10Gi"` |  |
 | kafka.storage.class | string | `"gp2"` |  |
 
 ### Fabric
@@ -158,7 +158,7 @@ The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 | scaling.minReplicas | int | `1` | Minimum number of replicas for auto-scaling. |
 | scaling.targetCPU | int | `90` | CPU utilization percentage to trigger scaling. |
 | secretsList | list |`[]`| A list of secrets to be mounted on a container as a files. |
-| storage.alocated_amount | string | `"10Gi"` | Allocated storage amount for the persistent volume. |
+| storage.allocated_amount | string | `"10Gi"` | Allocated storage amount for the persistent volume. |
 | storage.class | string | `"gp2"` | Storage class to be used for persistent storage. |
 | storage.pvc.enabled | bool | `true` | Flag to enable or disable the use of Persistent Volume Claims, true for Deployment, false for StatefulSet. |
 | storage.securityContext | bool | `true` | Flag to enable or disable the security context for storage. |

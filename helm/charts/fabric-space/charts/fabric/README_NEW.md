@@ -116,7 +116,7 @@ The following table lists the main configurable parameters of the Fabric chart a
 | `storage.pvc.enabled` | bool | `true` | Enable persistent volume claim |
 | `storage.securityContext` | bool | `true` | Enable pod security context |
 | `storage.class` | string | `managed` | Storage class name |
-| `storage.alocated_amount` | string | `10Gi` | PVC size |
+| `storage.allocated_amount` | string | `10Gi` | PVC size |
 | `scaling.enabled` | bool | `false` | Enable autoscaling |
 | `scaling.minReplicas` | int | `1` | Minimum replicas for autoscaling |
 | `scaling.maxReplicas` | int | `1` | Maximum replicas for autoscaling |
@@ -373,7 +373,7 @@ storage:
   pvc:
     enabled: true
   class: managed
-  alocated_amount: 20Gi
+  allocated_amount: 20Gi
   securityContext: true
 ```
 

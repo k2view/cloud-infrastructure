@@ -60,7 +60,7 @@ cassandra:
 
   storage:
     class: efs-cassandra
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 
 postgres:
   enabled: false
@@ -109,7 +109,7 @@ postgres:
 
   storage:
     class: efs-pg
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 
 kafka:
   enabled: false
@@ -157,7 +157,7 @@ kafka:
 
   storage:
     class: efs-kafka
-    alocated_amount: 10Gi  
+    allocated_amount: 10Gi
 
 fabric:
   enabled: true
@@ -206,7 +206,7 @@ fabric:
       enabled: true
     securityContext: true
     class: efs-sc
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 
   # Wether if Fabric will scale up or not
   scaling:
@@ -338,7 +338,7 @@ neo4j:
 
   storage:
     class: efs-pg
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 
 DB2:
   enabled: false
@@ -354,7 +354,7 @@ DB2:
     port: 50000
 
   storage:
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
     class: managed
 
   db2:

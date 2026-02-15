@@ -65,7 +65,7 @@ listening_port: 9042
 
 storage:
   class: gp2
-  alocated_amount: 10Gi
+  allocated_amount: 10Gi
 
 affinity:
   type: none  # Options: affinity, anti-affinity, none
