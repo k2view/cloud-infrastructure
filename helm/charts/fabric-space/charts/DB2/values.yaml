@@ -11,7 +11,7 @@ service:
   port: 50000
 
 storage:
-  alocated_amount: 10Gi
+  allocated_amount: 10Gi
   class: managed
 
 db2:

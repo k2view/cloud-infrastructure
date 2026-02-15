@@ -33,7 +33,7 @@ The `postgres` Helm chart is designed to deploy a PostgreSQL database on Kuberne
 | namespace.create | bool | `true` | Enable creation of namespace |
 | namespace.name | string | `"space-tenant"` | Namespace for PostgreSQL deployment |
 | networkPolicy.enabled | bool | `true` | Enable network policy for PostgreSQL |
-| storage.alocated_amount | string | `"10Gi"` | Amount of storage allocated for PostgreSQL |
+| storage.allocated_amount | string | `"10Gi"` | Amount of storage allocated for PostgreSQL |
 | storage.class | string | `"gp2"` | Storage class for PostgreSQL data |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
 | affinity.label | object | `{}` | Label configuration for affinity rules. |

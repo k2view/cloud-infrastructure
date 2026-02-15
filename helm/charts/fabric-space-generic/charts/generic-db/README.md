@@ -39,7 +39,7 @@ The chart supports the following database types through the `app_name` value:
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `storage.class` | string | `"managed"` | Storage class name |
-| `storage.alocated_amount` | string | `"10Gi"` | Allocated storage size |
+| `storage.allocated_amount` | string | `"10Gi"` | Allocated storage size |
 | `storage.securityContext` | bool | `true` | Enable security context |
 
 ### Network Configuration

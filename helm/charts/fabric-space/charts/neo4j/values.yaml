@@ -53,7 +53,7 @@ networkPolicy:
 
 storage:
   class: efs-pg
-  alocated_amount: 10Gi
+  allocated_amount: 10Gi
 
 affinity:
   type: none  # Options: affinity, anti-affinity, none

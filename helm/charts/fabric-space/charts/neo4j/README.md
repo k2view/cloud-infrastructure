@@ -32,7 +32,7 @@ This Helm chart supports highly available Neo4j configurations, tailored for K2v
 | labels[1].value | string | `"my-space"` | Label value for space |
 | namespace.name | string | `"space-tenant"` | Namespace for Neo4j deployment |
 | networkPolicy.enabled | bool | `true` | Enable network policy for Neo4j |
-| storage.alocated_amount | string | `"10Gi"` | Amount of storage allocated for Neo4j |
+| storage.allocated_amount | string | `"10Gi"` | Amount of storage allocated for Neo4j |
 | storage.class | string | `"efs-pg"` | Storage class for Neo4j data |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
 | affinity.label | object | `{}` | Label configuration for affinity rules. |

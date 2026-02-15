@@ -56,7 +56,7 @@ listening_port: 5432
 
 storage:
   class: regional-pd
-  alocated_amount: 10Gi
+  allocated_amount: 10Gi
 
 affinity:
   type: none  # Options: affinity, anti-affinity, none

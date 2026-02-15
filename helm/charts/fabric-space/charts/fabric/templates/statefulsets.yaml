@@ -23,6 +23,7 @@
 {{ $livenessProbe := default dict $container.livenessProbe }}
 {{ $readinessProbe := default dict $container.readinessProbe }}
 {{ $startupProbe := default dict $container.startupProbe }}
+{{ $allocated_amount := default $storage.allocated_amount $storage.alocated_amount }} {{- /* for backward compatibility, fix spelling error */ -}}
 
 {{ if eq $type "StatefulSet" }}
 apiVersion: apps/v1
@@ -63,11 +64,13 @@ spec:
     - metadata:
         name: fabric-storage-private
       spec:
+        {{- if $storage.class }}
         storageClassName: {{ $storage.class }}
+        {{- end }}
         accessModes: [ "ReadWriteOnce" ]
         resources:
           requests:
-            storage: {{ $storage.alocated_amount | default "10Gi" }}
+            storage: {{ default "10Gi" $allocated_amount }}
     template:
         metadata:
           labels: *id001

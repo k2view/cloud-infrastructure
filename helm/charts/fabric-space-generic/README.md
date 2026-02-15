@@ -68,7 +68,7 @@ Used for Fabric server clusters. In this mode:
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | storage.class | string | `"regional-pd"` | Storage class name |
-| storage.alocated_amount | string | `"10Gi"` | Allocated storage size |
+| storage.allocated_amount | string | `"10Gi"` | Allocated storage size |
 | storage.securityContext | bool | `true` | Enable security context |
 | storage.pvc.enabled | bool | `true` | Enable PVC (required for Deployment mode) |
 

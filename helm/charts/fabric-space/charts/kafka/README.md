@@ -35,7 +35,7 @@ The kafka Helm chart is designed to deploy Apache Kafka, a distributed event str
 | listening_port | int | `9093` | Port for Kafka to listen on |
 | namespace.name | string | `"space-tenant"` | Namespace for Kafka deployment |
 | networkPolicy.enabled | bool | `false` | Enable network policy for Kafka |
-| storage.alocated_amount | string | `"10Gi"` | Amount of storage allocated for Kafka |
+| storage.allocated_amount | string | `"10Gi"` | Amount of storage allocated for Kafka |
 | storage.class | string | `"efs-kafka"` | Storage class for Kafka data |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
 | affinity.label | object | `{}` | Label configuration for affinity rules. |
