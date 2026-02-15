@@ -44,7 +44,7 @@ service:
 # pvc.yaml
 storage:
   class: managed
-  alocated_amount: 10Gi
+  allocated_amount: 10Gi
   securityContext: true
 
 # Affinity settings

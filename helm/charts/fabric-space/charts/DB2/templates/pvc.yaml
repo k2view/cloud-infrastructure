@@ -1,3 +1,5 @@
+{{- $storage := default dict .Values.storage -}}
+{{ $allocated_amount := default $storage.allocated_amount $storage.alocated_amount }} {{- /* for backward compatibility, fix spelling error */ -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -8,5 +10,7 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: {{ .Values.storage.alocated_amount }}
-  storageClassName: {{ .Values.storage.class }}
+      storage: {{ default "10Gi" $allocated_amount }}
+  {{- if $storage.class }}
+  storageClassName: {{ $storage.class }}
+  {{- end }}

@@ -31,7 +31,7 @@ cassandra:
 
   storage:
     class: managed
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 
 postgres:
   enabled: false
@@ -63,7 +63,7 @@ postgres:
 
   storage:
     class: managed
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 
 kafka:
   enabled: false
@@ -91,7 +91,7 @@ kafka:
 
   storage:
     class: managed
-    alocated_amount: 10Gi  
+    allocated_amount: 10Gi  
 
 neo4j:
   enabled: false
@@ -125,7 +125,7 @@ neo4j:
 
   storage:
     class: managed
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 db2:
   enabled: false
   # app_name will be app lable and prefix for resources
@@ -184,7 +184,7 @@ db2:
   # pvc.yaml
   storage:
     class: managed
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
  
 fabric:
   enabled: true
@@ -230,7 +230,7 @@ fabric:
       enabled: true
     securityContext: true
     class: managed
-    alocated_amount: 10Gi
+    allocated_amount: 10Gi
 
   # Wether if Fabric will scale up or not
   scaling:

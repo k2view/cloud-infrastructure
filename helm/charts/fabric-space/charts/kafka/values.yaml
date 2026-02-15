@@ -51,7 +51,7 @@ listening_port: 9093
 
 storage:
   class: efs-kafka
-  alocated_amount: 10Gi
+  allocated_amount: 10Gi
 
 affinity:
   type: none  # Options: affinity, anti-affinity, none

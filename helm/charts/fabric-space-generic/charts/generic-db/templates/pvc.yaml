@@ -1,6 +1,7 @@
 {{ $namespace := default dict .Values.namespace }}
 {{- $storage := default dict .Values.storage -}}
 {{- $app_name := .Values.app_name | default .Chart.Name -}}
+{{ $allocated_amount := $storage.alocated_amount | default $storage.allocated_amount }} {{- /* for backward compatibility, fix spelling error */ -}}
 {{- /* ---------------------------- */ -}}
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -20,4 +21,4 @@ spec:
   {{- end }}
   resources:
     requests:
-      storage: {{ default "10Gi" $storage.alocated_amount }}
+      storage: {{ default "10Gi" $allocated_amount }}
