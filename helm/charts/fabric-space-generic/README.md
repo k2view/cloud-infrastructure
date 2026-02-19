@@ -1,6 +1,6 @@
 # Fabric-space
 
-![Version: 1.1.5](https://img.shields.io/badge/Version-1.1.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.1](https://img.shields.io/badge/AppVersion-8.1-informational?style=flat-square)
+![Version: 1.1.5](https://img.shields.io/badge/Version-1.1.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.2](https://img.shields.io/badge/AppVersion-8.2-informational?style=flat-square)
 
 The following Helm Chart Deploys Fabric and Postgres. It supports both Deployment (for single-node Fabric) and StatefulSet (for Fabric server cluster) modes.
 
@@ -8,7 +8,7 @@ The following Helm Chart Deploys Fabric and Postgres. It supports both Deploymen
 | Repository | Name | Version |
 |------------|------|---------|
 | file://./charts/generic-db | generic-db | 1.0.2 |
-| file://./charts/fabric     | fabric     | ~1.1.5-0 |
+| file://./charts/fabric     | fabric     | ~1.2.0-0 |
 
 ## Deployment Modes
 

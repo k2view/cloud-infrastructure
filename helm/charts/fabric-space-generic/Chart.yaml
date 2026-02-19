@@ -3,12 +3,12 @@ name: fabric-space-generic
 description: The following Helm Chart Deploys Fabric and Generic DB
 
 type: application
-version: 1.0.0
+version: 1.1.5
 appVersion: "8.2"
 
 dependencies:
   - name: fabric
-    version: ">=1.1.2"
+    version: ">=1.2.0"
     repository: "file://./charts/fabric"
     condition: fabric.enabled
   - name: generic-db

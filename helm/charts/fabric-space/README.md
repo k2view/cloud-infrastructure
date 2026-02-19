@@ -1,22 +1,22 @@
 # Fabric-space
 
-![Version: 1.1.5](https://img.shields.io/badge/Version-1.1.5-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.2](https://img.shields.io/badge/AppVersion-7.2-informational?style=flat-square)
+![Version: 1.2.33](https://img.shields.io/badge/Version-1.2.33-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.3](https://img.shields.io/badge/AppVersion-8.3-informational?style=flat-square)
 
 The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
 
 ## Requirements
 | Repository | Name | Version |
 |------------|------|---------|
-| file://./charts/cassandra | cassandra | ~1.1.0-0 |
-| file://./charts/postgres  | postgres  | ~0.1.0-0 |
-| file://./charts/kafka     | kafka     | ~0.1.0-0 |
-| file://./charts/fabric    | fabric    | ~1.1.5-0 |
+| file://./charts/cassandra | cassandra | ~1.2.0-0 |
+| file://./charts/postgres  | postgres  | ~1.2.0-0 |
+| file://./charts/kafka     | kafka     | ~1.2.0-0 |
+| file://./charts/fabric    | fabric    | ~1.2.0-0 |
 
 ## Values
 ### Cassandra
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| container.image.url | string | `"cassandra:3.11.8"` | Sets the Cassandra container image URL. |
+| container.image.url | string | `"cassandra:4.1.5"` | Sets the Cassandra container image URL. |
 | container.image.repoSecret.enabled | bool | `false` | Determines whether the use of a Docker registry secret is enabled. |
 | container.image.repoSecret.name | string | `"registry-secret"` | Names the Kubernetes secret used for accessing the private Docker registry. |
 | container.image.repoSecret.dockerRegistry.auths."docker.share.cloud.k2view.com".password | string | `""` | Specifies the password for accessing the private Docker registry. |
