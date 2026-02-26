@@ -18,9 +18,17 @@ labels:
   - name: space
     value: my-space
 
+# annotations:
+#   - name: description
+#     value: "Neo4j graph database deployment"
+#   - name: version
+#     value: "5.26.13-enterprise"
+#   - name: managed-by
+#     value: "helm"
+
 container:
   image:
-    url: neo4j:5.25.1-enterprise
+    url: neo4j:5.26.13-enterprise
     repoSecret:
       name: "registry-secret"
       enabled: false

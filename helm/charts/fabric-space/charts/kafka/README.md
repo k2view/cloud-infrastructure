@@ -1,11 +1,12 @@
 # kafka
 
-![Version: 1.0.2](https://img.shields.io/badge/Version-1.0.2-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.2.0](https://img.shields.io/badge/AppVersion-7.2.0-informational?style=flat-square)
+![Version: 1.0.10](https://img.shields.io/badge/Version-1.0.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 7.2](https://img.shields.io/badge/AppVersion-7.2-informational?style=flat-square)
 
-This Helm chart deploys Kafka on Kubernetes.
+Example Helm chart for deploying Kafka on Kubernetes.
 
 ## Description
 The kafka Helm chart is designed to deploy Apache Kafka, a distributed event streaming platform, on Kubernetes. Kafka is widely used for building real-time data pipelines and streaming applications. This chart includes options for configuring Kafka's storage, resource allocation, and network policies to ensure optimal performance and security.
+
 
 ## Values
 | Key | Type | Default | Description |
@@ -23,15 +24,10 @@ The kafka Helm chart is designed to deploy Apache Kafka, a distributed event str
 | container.resource_allocation.requests.cpu | string | `"0.4"` | CPU requests for Kafka container |
 | container.resource_allocation.requests.memory | string | `"2Gi"` | Memory requests for Kafka container |
 | container.storage_path | string | `"/home/kafka/zk_data"` | Path for Kafka data storage |
-| global.labels[0].name | string | `"tenant"` | Global label key for tenant |
-| global.labels[0].value | string | `"my-tenant"` | Global label value for tenant |
-| global.labels[1].name | string | `"space"` | Global label key for space |
-| global.labels[1].value | string | `"my-space"` | Global label value for space |
+| global.labels | list | `[]` | A list of global labels to be applied to Kubernetes resources. |
 | global.namespace.name | string | `"space-tenant"` | Global namespace for Kafka deployment |
-| labels[0].name | string | `"tenant"` | Label key for tenant |
-| labels[0].value | string | `"my-tenant"` | Label value for tenant |
-| labels[1].name | string | `"space"` | Label key for space |
-| labels[1].value | string | `"my-space"` | Label value for space |
+| labels | list | `[]` | A list of labels to be applied to Kubernetes resources. |
+| annotations | list | `[]` | A list of annotations (name/value pairs) for Kubernetes resources. |
 | listening_port | int | `9093` | Port for Kafka to listen on |
 | namespace.name | string | `"space-tenant"` | Namespace for Kafka deployment |
 | networkPolicy.enabled | bool | `false` | Enable network policy for Kafka |

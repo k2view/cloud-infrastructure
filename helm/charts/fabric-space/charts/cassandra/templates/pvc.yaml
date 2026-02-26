@@ -1,5 +1,6 @@
 {{- $storage := default dict .Values.storage -}}
 {{ $allocated_amount := default $storage.allocated_amount $storage.alocated_amount }} {{- /* for backward compatibility, fix spelling error */ -}}
+
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
@@ -10,6 +11,12 @@ metadata:
     {{- range $label := .Values.labels }}
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
+  {{- if .Values.annotations }}
+  annotations:
+    {{- range $annotation := .Values.annotations }}
+    {{ $annotation.name }}: {{ $annotation.value }}
+    {{- end }}
+  {{- end }}
 spec:
   accessModes:
     - ReadWriteOnce

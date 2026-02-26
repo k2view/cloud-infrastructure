@@ -1,6 +1,6 @@
 apiVersion: v2
 name: postgres
-description: This Helm chart deploys Kafka on Kubernetes.
+description: Example Helm chart for deploying Postgres on Kubernetes.
 type: application
-version: 0.1.0
-appVersion: "13.3.0"
+version: 1.0.9
+appVersion: "17.5"
