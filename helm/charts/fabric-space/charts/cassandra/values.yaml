@@ -19,10 +19,17 @@ labels:
   - name: space
     value: my-space
 
+# annotations:
+#   - name: description
+#     value: "Cassandra database deployment"
+#   - name: version
+#     value: "4.1.5"
+#   - name: managed-by
+#     value: "helm"
+
 container:
-  replicas: 1
   image:
-    url: cassandra:3.11.8
+    url: cassandra:4.1.5
 
     repoSecret:
       name: "registry-secret"
@@ -64,7 +71,7 @@ networkPolicy:
 listening_port: 9042
 
 storage:
-  class: gp2
+  class: regional-pd
   allocated_amount: 10Gi
 
 affinity:
@@ -72,4 +79,3 @@ affinity:
   label: 
     name: topology.kubernetes.io/zone
     value: region-a
-

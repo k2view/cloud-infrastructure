@@ -8,8 +8,14 @@ metadata:
     {{- range $label := .Values.labels }}
     {{ $label.name }}: {{ $label.value }}
     {{- end }}
+  {{- if .Values.annotations }}
+  annotations:
+    {{- range $annotation := .Values.annotations }}
+    {{ $annotation.name }}: {{ $annotation.value }}
+    {{- end }}
+  {{- end }}
 spec:
-  replicas: {{ .Values.replicas }}
+  replicas: 1
   selector:
     matchLabels:
       app: cassandra

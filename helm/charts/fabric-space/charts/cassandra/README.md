@@ -1,13 +1,12 @@
 # Cassandra Helm Chart
+![Version: 1.0.16](https://img.shields.io/badge/Version-1.0.16-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.11.8](https://img.shields.io/badge/AppVersion-3.11.8-informational?style=flat-square)
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 3.11.8](https://img.shields.io/badge/AppVersion-3.11.8-informational?style=flat-square)
-
-This Helm chart deploys Cassandra on Kubernetes.
+Example Helm chart for deploying Cassandra on Kubernetes.
 
 ## Values
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
-| container.image.url | string | `"cassandra:3.11.8"` | Sets the Cassandra container image URL. |
+| container.image.url | string | `"cassandra:4.1.5"` | Sets the Cassandra container image URL. |
 | container.image.repoSecret.enabled | bool | `false` | Determines whether the use of a Docker registry secret is enabled. |
 | container.image.repoSecret.name | string | `"registry-secret"` | Names the Kubernetes secret used for accessing the private Docker registry. |
 | container.image.repoSecret.dockerRegistry.auths."docker.share.cloud.k2view.com".password | string | `""` | Specifies the password for accessing the private Docker registry. |
@@ -28,10 +27,8 @@ This Helm chart deploys Cassandra on Kubernetes.
 | container.envList[3].value | string | `"GossipingPropertyFileSnitch"` | Configures the snitch implementation as 'GossipingPropertyFileSnitch', which is suitable for production setups. |
 | credentials.cassandra_password | string | `"cassandra"` | Sets the default password for the Cassandra database. |
 | credentials.cassandra_username | string | `"cassandra"` | Sets the default username for the Cassandra database.|
-| labels[0].name | string | `"tenant"` | Defines a label with the key 'tenant'. |
-| labels[0].value | string | `"my-tenant"` | Assigns the value 'my-tenant' to the 'tenant' label. |
-| labels[1].name | string | `"space"` | Specifies a label with the key 'space'. |
-| labels[1].value | string | `"my-space"` | Sets the value 'my-space' for the 'space' label. |
+| labels | list | `[]` | A list of labels to be applied to Kubernetes resources. |
+| annotations | list | `[]` | A list of annotations (name/value pairs) for Kubernetes resources. |
 | listening_port | int | `9042` | Configures the port on which Cassandra listens for client connections. |
 | namespace.create | bool | `true` | Indicates whether to create a new Kubernetes namespace for the Cassandra deployment. |
 | namespace.name | string | `"space-tenant"` | Names the Kubernetes namespace for the deployment. |
@@ -39,11 +36,12 @@ This Helm chart deploys Cassandra on Kubernetes.
 | storage.allocated_amount | string | `"10Gi"` | Specifies the amount of storage allocated for Cassandra data, set to 10 gigabytes. |
 | storage.class | string | `"gp2"` | Defines the storage class to be used for Cassandra data storage. |
 | affinity.type | string | `"none"` | Specifies the type of affinity rule to apply. Options: `affinity`, `anti-affinity`, `none`. |
-| affinity.label | object | `{}` | Label configuration for affinity rules. |
+| affinity.label | object | `{}` | Label configuration for affinity rules |
 | affinity.label.name | string | `""` | The key of the label to be used for affinity rules. For example: `topology.kubernetes.io/zone`. |
 | affinity.label.value | string | `""` | The value of the label to be used for affinity rules. For example: `region-a`. |
 
 >NOTE: for mo information about Cassandra configs in the image [Cassandra docker hub](https://hub.docker.com/_/cassandra) in Configuring Cassandra section.
+
 
 ## Installation
 ### Install from helm repo

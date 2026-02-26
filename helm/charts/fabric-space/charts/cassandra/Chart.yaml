@@ -1,6 +1,6 @@
 apiVersion: v2
 name: cassandra
-description: This Helm chart deploys Cassandra on Kubernetes.
+description: Example Helm chart for deploying Cassandra on Kubernetes.
 type: application
-version: 1.1.0
-appVersion: "3.11.8"
+version: 1.0.16
+appVersion: "4.1.5"
