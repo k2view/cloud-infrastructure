@@ -20,8 +20,8 @@ container:
       memory: 4Gi
       cpu: '1'
     requests:
-      memory: 1Gi
-      cpu: '0.4'
+      memory: 2Gi
+      cpu: '0.5'
 
 # secrets.yaml
 secrets:
@@ -37,10 +37,6 @@ secrets:
   value: DC1
 - key: CASSANDRA_ENDPOINT_SNITCH
   value: GossipingPropertyFileSnitch
-
-# ingress_np.yaml
-networkPolicy:
-  enabled: true
 
 # service.yaml
 service:
