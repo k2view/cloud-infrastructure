@@ -17,8 +17,15 @@ labels:
   - name: space
     value: my-space
 
+# annotations:
+#   - name: description
+#     value: "Apache Kafka message broker deployment"
+#   - name: version
+#     value: "7.2"
+#   - name: managed-by
+#     value: "helm"
+
 container:
-  replicas: 1
   image:
     url: 329508970117.dkr.ecr.eu-central-1.amazonaws.com/k2view_shared:kafka_7.2
 
@@ -36,6 +43,7 @@ container:
     limits:
       memory: 4Gi
       cpu: '1'
+
     requests:
       memory: 2Gi
       cpu: '0.4'
