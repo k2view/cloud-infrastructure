@@ -17,10 +17,17 @@ labels:
   - name: space
     value: my-space
 
+# annotations:
+#   - name: description
+#     value: "PostgreSQL database deployment"
+#   - name: version
+#     value: "15.7"
+#   - name: managed-by
+#     value: "helm"
+
 container:
-  replicas: 1
   image:
-    url: postgres:13.3
+    url: postgres:17.5
 
     repoSecret:
       name: "registry-secret"
