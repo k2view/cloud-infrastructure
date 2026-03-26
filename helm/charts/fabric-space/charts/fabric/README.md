@@ -1,5 +1,5 @@
 # Fabric Helm Chart
-![Version: 1.2.31](https://img.shields.io/badge/Version-1.2.31-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.3](https://img.shields.io/badge/AppVersion-8.3-informational?style=flat-square)
+![Version: 1.2.32](https://img.shields.io/badge/Version-1.2.32-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 8.3](https://img.shields.io/badge/AppVersion-8.3-informational?style=flat-square)
 
 ## Overview
 The Fabric Helm chart provides a robust, production-ready deployment of the Fabric application on Kubernetes clusters. This chart is designed for flexibility, security, and ease of use, supporting a wide range of configuration options to suit enterprise and cloud-native environments. It is suitable for both development and production deployments, and is maintained with best practices for reliability and scalability.
@@ -124,6 +124,7 @@ The following table lists the main configurable parameters of the Fabric chart a
 | `serviceAccount.project_id` | string | `""` | GCP project ID |
 | `serviceAccount.cluster_name` | string | `""` | Cluster name |
 | `serviceAccount.azure_client_id` | string | `""` | Azure Managed Identity client ID |
+| `serviceAccount.automountServiceAccountToken` | bool | `""` | Set to `false` to explicitly disable automounting the service account token. When not set, Kubernetes defaults to `true` |
 | `serviceAccount.annotations` | array | `[]` | Resource-specific annotations for service account |
 | `container.replicas` | int | `1` | Number of Fabric pods |
 | `container.annotationsList` | list | `[{{name: description, value: Fabric on Kubernetes}}]` | List of pod annotations |
