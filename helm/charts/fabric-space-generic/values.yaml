@@ -126,7 +126,7 @@ neo4j:
   storage:
     class: managed
     allocated_amount: 10Gi
-db2:
+DB2:
   enabled: false
   # app_name will be app lable and prefix for resources
   app_name: "db2"
