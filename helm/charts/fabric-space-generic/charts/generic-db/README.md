@@ -1,39 +1,39 @@
 # generic-db
+![Version: 1.1.7](https://img.shields.io/badge/Version-1.1.7-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
 
-![Version: 1.1.0](https://img.shields.io/badge/Version-1.1.0-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 1.0](https://img.shields.io/badge/AppVersion-1.0-informational?style=flat-square)
-
-This Helm chart deploys a generic database on Kubernetes with support for multiple database types.
+Example Helm chart that deploys a generic database, such as PostgreSQL, Cassandra, or Neo4j, on Kubernetes.
 
 ## Description
-The generic-db Helm chart is designed to deploy various types of databases (PostgreSQL, Cassandra, Kafka, Neo4j) on Kubernetes clusters. It provides automatic configuration based on the database type while allowing custom overrides. The chart supports configuring resource requests and limits, storage options, affinity rules, and secrets management.
-
-## Supported Database Types
-The chart supports the following database types through the `app_name` value:
-- **postgres**: PostgreSQL database (default port: 5432)
-- **cassandra**: Apache Cassandra (default port: 9042)
-- **kafka**: Apache Kafka (default port: 9093)
-- **neo4j**: Neo4j Graph Database (default port: 7687)
+The `generic-db` Helm chart is a reference example of a unified and configurable approach to deploying database systems, including PostgreSQL, Cassandra, Kafka, and Neo4j, on Kubernetes. It uses a single chart with parameterized values to control behavior per database type (`app_name`), including image selection, ports, volumes, and secrets.
 
 ## Values
-
 ### Global Configuration
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `app_name` | string | `"generic-db"` | Name of the database type to deploy (`postgres`, `cassandra`, `kafka`, `neo4j`) |
 | `namespace.name` | string | `""` | Name of the Kubernetes namespace (defaults to release name) |
+| `annotations` | array | `[]` | Global annotations applied to all resources |
+| `labels` | array | `[]` | Global labels applied to all resources |
 
 ### Container Configuration
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `container.replicas` | int | `1` | Number of container replicas |
-| `container.image.url` | string | `"postgres:15.8"` | Container image URL |
-| `container.image.repoSecret.enabled` | bool | `false` | Enable Docker registry secret |
-| `container.image.repoSecret.name` | string | `"registry-secret"` | Docker registry secret name |
-| `container.storage_path` | string | Database-specific | Storage path in container (auto-configured based on database type) |
-| `container.resource_allocation.limits.cpu` | string | `"1"` | CPU limit |
-| `container.resource_allocation.limits.memory` | string | `"4Gi"` | Memory limit |
-| `container.resource_allocation.requests.cpu` | string | `"0.4"` | CPU request |
-| `container.resource_allocation.requests.memory` | string | `"1Gi"` | Memory request |
+| `container.resource_allocation.limits.cpu` | string | `"1"` | CPU limit for the container |
+| `container.resource_allocation.limits.memory` | string | `"4Gi"` | Memory limit for the container |
+| `container.resource_allocation.requests.cpu` | string | `"0.4"` | CPU request for the container |
+| `container.resource_allocation.requests.memory` | string | `"1Gi"` | Memory request for the container |
+| `container.storage_path` | string | `"/opt/apps/pgsql/data/data/"` | Path to the storage directory in the container |
+| `container.annotations` | array | `[]` | Resource-specific annotations for deployment |
+| `container.labels` | array | `[]` | Resource-specific labels for deployment |
+
+### Secrets Configuration
+| Key | Type | Default | Description |
+|-----|------|---------|-------------|
+| `create_secrets` | bool | `true` | Whether to create default secrets |
+| `secrets` | array | `[]` | List of custom secrets to create |
+| `secrets.annotations` | array | `[]` | Resource-specific annotations for secret |
+| `secrets.labels` | array | `[]` | Resource-specific labels for secret |
 
 ### Storage Configuration
 | Key | Type | Default | Description |
@@ -41,12 +41,18 @@ The chart supports the following database types through the `app_name` value:
 | `storage.class` | string | `"managed"` | Storage class name |
 | `storage.allocated_amount` | string | `"10Gi"` | Allocated storage size |
 | `storage.securityContext` | bool | `true` | Enable security context |
+| `storage.annotations` | array | `[]` | Resource-specific annotations for PVC |
+| `storage.labels` | array | `[]` | Resource-specific labels for PVC |
 
 ### Network Configuration
 | Key | Type | Default | Description |
 |-----|------|---------|-------------|
 | `service.port` | int | Database-specific | Service port (auto-configured based on database type) |
+| `service.annotations` | array | `[]` | Resource-specific annotations for service |
+| `service.labels` | array | `[]` | Resource-specific labels for service |
 | `networkPolicy.enabled` | bool | `true` | Enable network policy |
+| `networkPolicy.annotations` | array | `[]` | Resource-specific annotations for network policy |
+| `networkPolicy.labels` | array | `[]` | Resource-specific labels for network policy |
 
 ### Affinity Configuration
 | Key | Type | Default | Description |
@@ -56,7 +62,6 @@ The chart supports the following database types through the `app_name` value:
 | `affinity.label.value` | string | `"region-a"` | Affinity label value |
 
 ### Default Database Configurations
-
 The chart automatically configures certain values based on the selected database type (`app_name`):
 
 #### PostgreSQL (app_name: postgres)
@@ -100,15 +105,12 @@ secrets:
 ```
 
 ## Installation
-
 To install the chart with the release name `my-release`:
-
 ```bash
 helm install my-release ./generic-db
 ```
 
 To deploy a specific database type, set the `app_name` value:
-
 ```bash
 helm install my-release ./generic-db --set app_name=postgres
 ```
@@ -126,7 +128,7 @@ The `generic-db` Helm chart can be customized to deploy different databases by a
 - **Neo4j**: `values.example_neo4j`
 - **Postgres**: `values.yaml` (default configuration)
 
-These high-level configurations illustrate how you can tailor the generic-db Helm chart to suit different database systems by modifying key parameters in the values files.
+These high-level configurations demonstrate how to customize the generic-db Helm chart to suit various database systems by modifying key parameters in the values files.
 
 ### Cassandra
 To deploy **Cassandra**, use `values.example_cassandra`. This configuration sets `app_name` to `cassandra`, specifies the Cassandra Docker image, adjusts resource allocations suitable for a Cassandra deployment, and includes necessary secrets for authentication.
