@@ -2,6 +2,7 @@
 
 ![Version: 1.0.10](https://img.shields.io/badge/Version-1.0.10-informational?style=flat-square) ![Type: application](https://img.shields.io/badge/Type-application-informational?style=flat-square) ![AppVersion: 17.5](https://img.shields.io/badge/AppVersion-17.5-informational?style=flat-square)
 
+
 Example Helm chart for deploying PostgreSQL on Kubernetes.
 
 ## Description
