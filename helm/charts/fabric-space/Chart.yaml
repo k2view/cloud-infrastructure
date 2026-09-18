@@ -1,38 +1,31 @@
 apiVersion: v2
-name: fabric-space
-description: The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
-
-type: application
-version: 1.2.40
 appVersion: "8.3"
-
 dependencies:
-  - name: cassandra
-    version: "~1.2.0-0"
-    repository: "file://./charts/cassandra"
-    condition: cassandra.enabled
-
-  - name: fabric
-    version: "~1.2.0-0"
-    repository: "file://./charts/fabric"
-    condition: fabric.enabled
-
-  - name: postgres
-    version: "~1.2.0-0"
-    repository: "file://./charts/postgres"
-    condition: postgres.enabled
-
-  - name: kafka
-    version: "~1.2.0-0"
-    repository: "file://./charts/kafka"
-    condition: kafka.enabled
-
-  - name: neo4j
-    version: "~1.2.0-0"
-    repository: "file://./charts/neo4j"
-    condition: neo4j.enabled
-    
-  - name: DB2
-    version: "~1.2.0-0"
-    repository: "file://./charts/DB2"
-    condition: DB2.enabled
+- condition: cassandra.enabled
+  name: cassandra
+  repository: file://../cassandra
+  version: '*'
+- condition: fabric.enabled
+  name: fabric
+  repository: file://../fabric
+  version: '*'
+- condition: postgres.enabled
+  name: postgres
+  repository: file://../postgres
+  version: '*'
+- condition: kafka.enabled
+  name: kafka
+  repository: file://../kafka
+  version: '*'
+- condition: neo4j.enabled
+  name: neo4j
+  repository: file://../neo4j
+  version: '*'
+- condition: DB2.enabled
+  name: DB2
+  repository: file://../DB2
+  version: '*'
+description: The following Helm Chart Deploys Fabric, Cassandra, Postgres and Kafka
+name: fabric-space
+type: application
+version: 1.2.42
