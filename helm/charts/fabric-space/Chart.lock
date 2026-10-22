@@ -1,0 +1,21 @@
+dependencies:
+- name: cassandra
+  repository: file://../cassandra
+  version: 1.0.17
+- name: fabric
+  repository: file://../fabric
+  version: 1.2.40
+- name: postgres
+  repository: file://../postgres
+  version: 1.0.10
+- name: kafka
+  repository: file://../kafka
+  version: 1.0.11
+- name: neo4j
+  repository: file://../neo4j
+  version: 1.0.9
+- name: DB2
+  repository: file://../DB2
+  version: 0.1.0
+digest: sha256:919dfeda03abb9b9638cb60ca7349c6ba27a1113b86bfa63037abc292735ab7a
+generated: "2026-09-18T14:23:39.234023696Z"

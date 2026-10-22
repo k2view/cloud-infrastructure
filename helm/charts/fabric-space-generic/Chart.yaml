@@ -1,38 +1,36 @@
 apiVersion: v2
-name: fabric-space-generic
-description: The following Helm Chart Deploys Fabric and Generic DB
-
-type: application
-version: 1.1.18
 appVersion: "8.2"
-
 dependencies:
-  - name: fabric
-    version: ">=1.2.0"
-    repository: "file://./charts/fabric"
-    condition: fabric.enabled
-  - name: generic-db
-    alias: postgres
-    version: ">=1.0.2"
-    repository: "file://./charts/generic-db"
-    condition: postgres.enabled
-  - name: generic-db
-    alias: cassandra
-    version: ">=1.0.2"
-    repository: "file://./charts/generic-db"
-    condition: cassandra.enabled
-  - name: generic-db
-    alias: kafka
-    version: ">=1.0.2"
-    repository: "file://./charts/generic-db"
-    condition: kafka.enabled
-  - name: generic-db
-    alias: neo4j
-    version: ">=1.0.2"
-    repository: "file://./charts/generic-db"
-    condition: neo4j.enabled
-  - name: generic-db
-    alias: DB2
-    version: ">=1.0.2"
-    repository: "file://./charts/generic-db"
-    condition: DB2.enabled
+- condition: fabric.enabled
+  name: fabric
+  repository: file://../fabric
+  version: '*'
+- alias: postgres
+  condition: postgres.enabled
+  name: generic-db
+  repository: file://../generic-db
+  version: '*'
+- alias: cassandra
+  condition: cassandra.enabled
+  name: generic-db
+  repository: file://../generic-db
+  version: '*'
+- alias: kafka
+  condition: kafka.enabled
+  name: generic-db
+  repository: file://../generic-db
+  version: '*'
+- alias: neo4j
+  condition: neo4j.enabled
+  name: generic-db
+  repository: file://../generic-db
+  version: '*'
+- alias: DB2
+  condition: DB2.enabled
+  name: generic-db
+  repository: file://../generic-db
+  version: '*'
+description: The following Helm Chart Deploys Fabric and Generic DB
+name: fabric-space-generic
+type: application
+version: 1.1.21
