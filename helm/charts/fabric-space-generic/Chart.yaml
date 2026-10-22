@@ -33,4 +33,4 @@ dependencies:
 description: The following Helm Chart Deploys Fabric and Generic DB
 name: fabric-space-generic
 type: application
-version: 1.1.21
+version: 1.1.23
