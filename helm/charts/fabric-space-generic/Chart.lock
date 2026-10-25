@@ -1,21 +1,21 @@
 dependencies:
 - name: fabric
   repository: file://../fabric
-  version: 1.2.40
+  version: 1.2.41
 - name: generic-db
   repository: file://../generic-db
-  version: 1.1.10
+  version: 1.2.0
 - name: generic-db
   repository: file://../generic-db
-  version: 1.1.10
+  version: 1.2.0
 - name: generic-db
   repository: file://../generic-db
-  version: 1.1.10
+  version: 1.2.0
 - name: generic-db
   repository: file://../generic-db
-  version: 1.1.10
+  version: 1.2.0
 - name: generic-db
   repository: file://../generic-db
-  version: 1.1.10
-digest: sha256:5663d19ca344ffcc166bba8150f685e3cabb6a32ec147848b464a15381f4afff
-generated: "2026-09-18T14:23:39.322733138Z"
+  version: 1.2.0
+digest: sha256:6c111fe88c8b5293d7cdce98bba27720acf3beda4d608d774dfbad96aac87c9f
+generated: "2026-10-23T14:23:22.74627238Z"
