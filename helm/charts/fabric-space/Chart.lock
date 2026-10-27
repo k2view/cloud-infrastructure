@@ -4,7 +4,7 @@ dependencies:
   version: 1.0.17
 - name: fabric
   repository: file://../fabric
-  version: 1.2.40
+  version: 1.2.41
 - name: postgres
   repository: file://../postgres
   version: 1.0.10
@@ -17,5 +17,5 @@ dependencies:
 - name: DB2
   repository: file://../DB2
   version: 0.1.0
-digest: sha256:919dfeda03abb9b9638cb60ca7349c6ba27a1113b86bfa63037abc292735ab7a
-generated: "2026-09-18T14:23:39.234023696Z"
+digest: sha256:36d78def811b7a9360964337b1b6ea0ad7167e654836ff844f1cdbc76e0b22d5
+generated: "2026-10-22T07:23:42.394556619Z"
