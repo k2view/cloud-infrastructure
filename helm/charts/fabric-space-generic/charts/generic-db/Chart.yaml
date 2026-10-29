@@ -4,4 +4,4 @@ description: Example Helm chart that deploys a generic database, such as Postgre
   Cassandra, or Neo4j, on Kubernetes.
 name: generic-db
 type: application
-version: 1.2.0
+version: 1.2.1

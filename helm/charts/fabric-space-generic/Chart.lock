@@ -4,18 +4,18 @@ dependencies:
   version: 1.2.41
 - name: generic-db
   repository: file://../generic-db
-  version: 1.2.0
+  version: 1.2.1
 - name: generic-db
   repository: file://../generic-db
-  version: 1.2.0
+  version: 1.2.1
 - name: generic-db
   repository: file://../generic-db
-  version: 1.2.0
+  version: 1.2.1
 - name: generic-db
   repository: file://../generic-db
-  version: 1.2.0
+  version: 1.2.1
 - name: generic-db
   repository: file://../generic-db
-  version: 1.2.0
-digest: sha256:e05f3cb3b6edfbdcea823c991a9cc3a0c2be5c77d60551630f0ba29971636cee
-generated: "2026-10-22T07:23:42.472611694Z"
+  version: 1.2.1
+digest: sha256:cab122a8a4c40d887c6becdcebbba27c94acb37429605ce73294fb221519ad3b
+generated: "2026-10-29T09:29:12.431377526Z"
