@@ -17,5 +17,5 @@ dependencies:
 - name: generic-db
   repository: file://../generic-db
   version: 1.2.0
-digest: sha256:e05f3cb3b6edfbdcea823c991a9cc3a0c2be5c77d60551630f0ba29971636cee
-generated: "2026-10-22T07:23:42.472611694Z"
+digest: sha256:6c111fe88c8b5293d7cdce98bba27720acf3beda4d608d774dfbad96aac87c9f
+generated: "2026-10-23T14:23:22.74627238Z"
